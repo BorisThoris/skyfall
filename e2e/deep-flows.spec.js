@@ -8,6 +8,18 @@ import { test, expect } from "@playwright/test";
 const CANVAS = "#phaser-example canvas";
 const PAGE_LOAD_TIMEOUT = 15000;
 
+async function waitForDevGame(page) {
+  await page.waitForFunction(() => Boolean(window.__skyfallDev?.game));
+}
+
+async function expectSceneActive(page, sceneKey) {
+  await waitForDevGame(page);
+  await page.waitForFunction(
+    (key) => window.__skyfallDev?.game?.scene?.isActive(key) === true,
+    sceneKey
+  );
+}
+
 test.describe("Deep flows", () => {
   // Game-over + replay is covered in panels.spec.js (deterministic wait). This file adds storage + scene hooks.
 
@@ -35,17 +47,31 @@ test.describe("Deep flows", () => {
     test.setTimeout(25000);
     await page.goto("/");
     await expect(page.locator(CANVAS)).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
-    await page.waitForFunction(() => Boolean(window.__skyfallDev?.game));
+    await waitForDevGame(page);
     await page.evaluate(() => {
       window.__skyfallDev.game.scene.start("achievementsScene", {
         returnTo: "mainMenuScene"
       });
     });
-    await page.waitForTimeout(800);
-    const active = await page.evaluate(() => {
-      const game = window.__skyfallDev?.game;
-      return game?.scene?.isActive("achievementsScene") === true;
+    await expectSceneActive(page, "achievementsScene");
+  });
+
+  test("fresh first-run menu prompt and tutorial can be completed with keyboard only", async ({ page }) => {
+    await page.addInitScript(() => localStorage.removeItem("skyfall_save"));
+    await page.goto("/");
+    await expect(page.locator(CANVAS)).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
+
+    const promptVisible = await page.evaluate(() => {
+      const menu = window.__skyfallDev?.game?.scene?.getScene("mainMenuScene");
+      return Array.isArray(menu?._tutorialPromptObjects) && menu._tutorialPromptObjects.length > 0;
     });
-    expect(active).toBe(true);
+    expect(promptVisible).toBe(true);
+
+    await page.keyboard.press("Space");
+    await expectSceneActive(page, "tutorialScene");
+
+    await page.keyboard.press("Space");
+    await expectSceneActive(page, "gameScene");
   });
 });

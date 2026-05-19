@@ -45,7 +45,7 @@ export default class TutorialScene extends BaseScene {
     this.optOutLabel.setInteractive({ useHandCursor: true });
     this.optOutLabel.on("pointerdown", () => this.toggleOptOut());
 
-    this.spaceHint = this.createText(GAME_CENTER_X, GAME_HEIGHT - 168, "Press Enter to begin • Press O to toggle opt-out", {
+    this.spaceHint = this.createText(GAME_CENTER_X, GAME_HEIGHT - 168, "Press Enter / Space to begin • Press O to toggle opt-out", {
       ...BODY_STYLE,
       font: "700 20px Arial",
       fill: colors.semantic.text.score,
@@ -68,9 +68,22 @@ export default class TutorialScene extends BaseScene {
     skip.setInteractive({ useHandCursor: true });
     skip.on("pointerdown", () => this.skipTutorial());
 
-    this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.oKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
-    this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    this._finishKeyHandler = () => this.finishTutorial();
+    this._optOutKeyHandler = () => this.toggleOptOut();
+    this._skipKeyHandler = () => this.skipTutorial();
+    this.input.keyboard.on("keydown-ENTER", this._finishKeyHandler);
+    this.input.keyboard.on("keydown-SPACE", this._finishKeyHandler);
+    this.input.keyboard.on("keydown-O", this._optOutKeyHandler);
+    this.input.keyboard.on("keydown-ESC", this._skipKeyHandler);
+    this.events.once("shutdown", () => {
+      this.input.keyboard.off("keydown-ENTER", this._finishKeyHandler);
+      this.input.keyboard.off("keydown-SPACE", this._finishKeyHandler);
+      this.input.keyboard.off("keydown-O", this._optOutKeyHandler);
+      this.input.keyboard.off("keydown-ESC", this._skipKeyHandler);
+      this._finishKeyHandler = null;
+      this._optOutKeyHandler = null;
+      this._skipKeyHandler = null;
+    });
   }
 
   toggleOptOut() {
@@ -92,17 +105,4 @@ export default class TutorialScene extends BaseScene {
     this.scene.start(this.returnTo, { ...this.returnData, skipTutorialGate: true });
   }
 
-  update() {
-    if (Phaser.Input.Keyboard.JustDown(this.enterKey)) {
-      this.finishTutorial();
-      return;
-    }
-    if (Phaser.Input.Keyboard.JustDown(this.oKey)) {
-      this.toggleOptOut();
-      return;
-    }
-    if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
-      this.skipTutorial();
-    }
-  }
 }

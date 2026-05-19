@@ -130,11 +130,7 @@ export default class MainMenuScene extends BaseScene {
     const menuItems = [
       {
         label: "Play",
-        action: () =>
-          this.scene.start(SCENE_KEYS.game, {
-            mode: this.selectedMode,
-            archetypeId: this.selectedArchetypeId
-          })
+        action: () => this._startSelectedRun()
       },
       {
         label: "Options",
@@ -273,6 +269,62 @@ export default class MainMenuScene extends BaseScene {
     if (shouldShowTutorial()) {
       this._showTutorialPrompt();
     }
+
+    this._keyboardStartHandler = () => this._handleKeyboardStart();
+    this._keyboardSkipHandler = () => {
+      if (this._tutorialPromptObjects) {
+        this._skipTutorialPrompt();
+      }
+    };
+    this.input.keyboard.on("keydown-SPACE", this._keyboardStartHandler);
+    this.input.keyboard.on("keydown-ENTER", this._keyboardStartHandler);
+    this.input.keyboard.on("keydown-ESC", this._keyboardSkipHandler);
+    this.events.once("shutdown", () => {
+      this.input.keyboard.off("keydown-SPACE", this._keyboardStartHandler);
+      this.input.keyboard.off("keydown-ENTER", this._keyboardStartHandler);
+      this.input.keyboard.off("keydown-ESC", this._keyboardSkipHandler);
+      this._keyboardStartHandler = null;
+      this._keyboardSkipHandler = null;
+    });
+  }
+
+  _getSelectedRunData() {
+    return {
+      mode: this.selectedMode,
+      archetypeId: this.selectedArchetypeId
+    };
+  }
+
+  _startSelectedRun(extraData = {}) {
+    this.scene.start(SCENE_KEYS.game, {
+      ...this._getSelectedRunData(),
+      ...extraData
+    });
+  }
+
+  _acceptTutorialPrompt() {
+    this._destroyTutorialPrompt();
+    this.scene.start(SCENE_KEYS.tutorial, {
+      returnTo: SCENE_KEYS.game,
+      returnData: {
+        ...this._getSelectedRunData(),
+        skipTutorialGate: true
+      }
+    });
+  }
+
+  _skipTutorialPrompt() {
+    setTutorialOptOut(true);
+    this._destroyTutorialPrompt();
+    this._startSelectedRun({ skipTutorialGate: true });
+  }
+
+  _handleKeyboardStart() {
+    if (this._tutorialPromptObjects) {
+      this._acceptTutorialPrompt();
+    } else {
+      this._startSelectedRun();
+    }
   }
 
   _showTutorialPrompt() {
@@ -296,7 +348,7 @@ export default class MainMenuScene extends BaseScene {
     panel.strokeRect(cx - panelW / 2, cy - panelH / 2, panelW, panelH);
     panel.setDepth(modalDepth + 1);
 
-    const title = this.add.text(cx, cy - 52, "Quick tutorial?", {
+    const title = this.add.text(cx, cy - 58, "Quick tutorial?", {
       font: PANEL_TITLE_STYLE.font,
       fill: PANEL_TITLE_STYLE.fill,
       align: "center"
@@ -305,7 +357,15 @@ export default class MainMenuScene extends BaseScene {
     title.setDepth(modalDepth + 2);
 
     const bodyStyle = { font: BODY_STYLE.font, fill: colors.semantic.text.muted, align: "center" };
-    const yesText = this.add.text(cx - 70, cy + 20, "Yes", {
+    const hint = this.add.text(cx, cy - 14, "Enter / Space: Yes    Esc: Skip", {
+      ...bodyStyle,
+      font: "700 16px Arial",
+      fill: colors.semantic.text.score
+    });
+    hint.setOrigin(0.5, 0.5);
+    hint.setDepth(modalDepth + 2);
+
+    const yesText = this.add.text(cx - 70, cy + 32, "Yes", {
       ...bodyStyle,
       font: "700 28px Arial",
       fill: colors.semantic.text.success
@@ -315,12 +375,9 @@ export default class MainMenuScene extends BaseScene {
     yesText.setInteractive({ useHandCursor: true });
     yesText.on("pointerover", () => { yesText.setScale(1.08); });
     yesText.on("pointerout", () => { yesText.setScale(1); });
-    yesText.on("pointerdown", () => {
-      this._destroyTutorialPrompt();
-      this.scene.start(SCENE_KEYS.tutorial, { returnTo: SCENE_KEYS.mainMenu });
-    });
+    yesText.on("pointerdown", () => this._acceptTutorialPrompt());
 
-    const skipText = this.add.text(cx + 70, cy + 20, "Skip", {
+    const skipText = this.add.text(cx + 70, cy + 32, "Skip", {
       ...bodyStyle,
       font: "700 28px Arial",
       fill: colors.semantic.text.warm
@@ -330,12 +387,9 @@ export default class MainMenuScene extends BaseScene {
     skipText.setInteractive({ useHandCursor: true });
     skipText.on("pointerover", () => { skipText.setScale(1.08); });
     skipText.on("pointerout", () => { skipText.setScale(1); });
-    skipText.on("pointerdown", () => {
-      setTutorialOptOut(true);
-      this._destroyTutorialPrompt();
-    });
+    skipText.on("pointerdown", () => this._skipTutorialPrompt());
 
-    this._tutorialPromptObjects = [backdrop, panel, title, yesText, skipText];
+    this._tutorialPromptObjects = [backdrop, panel, title, hint, yesText, skipText];
   }
 
   _destroyTutorialPrompt() {
@@ -402,4 +456,5 @@ export default class MainMenuScene extends BaseScene {
       window.close();
     }
   }
+
 }

@@ -5,6 +5,27 @@ const PAGE_LOAD_TIMEOUT = 15000;
 const CANVAS_SELECTOR = "#phaser-example canvas";
 const PHASER_CONTAINER = "#phaser-example";
 
+async function waitForDevGame(page) {
+  await page.waitForFunction(() => Boolean(window.__skyfallDev?.game));
+}
+
+async function expectSceneActive(page, sceneKey) {
+  await waitForDevGame(page);
+  await page.waitForFunction(
+    (key) => window.__skyfallDev?.game?.scene?.isActive(key) === true,
+    sceneKey
+  );
+}
+
+async function skipTutorialOnBoot(page) {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "skyfall_save",
+      JSON.stringify({ version: 2, tutorialCompleted: true, tutorialOptOut: false })
+    );
+  });
+}
+
 test.describe("Boot and menu", () => {
   test.setTimeout(25000);
 
@@ -39,16 +60,44 @@ test.describe("Boot and menu", () => {
   });
 
   test("starting game via Space switches to game scene", async ({ page }) => {
+    await skipTutorialOnBoot(page);
     await page.goto("/");
     const canvas = page.locator(CANVAS_SELECTOR);
     await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
     await page.keyboard.press("Space");
     await expect(canvas).toBeVisible();
+    await expectSceneActive(page, "gameScene");
+  });
+
+  test("starting game via Enter switches to game scene", async ({ page }) => {
+    await skipTutorialOnBoot(page);
+    await page.goto("/");
+    const canvas = page.locator(CANVAS_SELECTOR);
+    await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
+    await page.keyboard.press("Enter");
+    await expect(canvas).toBeVisible();
+    await expectSceneActive(page, "gameScene");
+  });
+
+  test("fresh first-run flow reaches gameplay using keyboard only", async ({ page }) => {
+    await page.addInitScript(() => localStorage.removeItem("skyfall_save"));
+    await page.goto("/");
+    await expect(page.locator(CANVAS_SELECTOR)).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
+
+    await page.keyboard.press("Space");
+    await expectSceneActive(page, "tutorialScene");
+
+    await page.keyboard.press("Enter");
+    await expectSceneActive(page, "gameScene");
   });
 
   test("starting game via click keeps canvas visible and produces no console errors", async ({
     page,
   }) => {
+    await skipTutorialOnBoot(page);
     const consoleErrors = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
@@ -59,6 +108,7 @@ test.describe("Boot and menu", () => {
     const container = page.locator(PHASER_CONTAINER);
     const canvas = page.locator(CANVAS_SELECTOR);
     await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
     consoleErrors.length = 0;
     const box = await container.boundingBox();
     expect(box).toBeTruthy();
@@ -99,6 +149,7 @@ test.describe("Boot and menu", () => {
   test("achievements screen opens from menu and Back returns without errors", async ({
     page,
   }) => {
+    await skipTutorialOnBoot(page);
     const consoleErrors = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
@@ -108,6 +159,7 @@ test.describe("Boot and menu", () => {
     await page.goto("/");
     const canvas = page.locator(CANVAS_SELECTOR);
     await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
     consoleErrors.length = 0;
 
     const box = await canvas.boundingBox();
