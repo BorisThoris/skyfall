@@ -9,15 +9,18 @@ const CANVAS = "#phaser-example canvas";
 const PAGE_LOAD_TIMEOUT = 15000;
 
 async function waitForDevGame(page) {
-  await page.waitForFunction(() => Boolean(window.__skyfallDev?.game));
+  await page.waitForFunction(() => Boolean(window.__skyfallDev?.getState));
 }
 
 async function expectSceneActive(page, sceneKey) {
   await waitForDevGame(page);
   await page.waitForFunction(
-    (key) => window.__skyfallDev?.game?.scene?.isActive(key) === true,
+    (key) => window.__skyfallDev?.getState?.().currentSceneKey === key,
     sceneKey
   );
+  await expect.poll(
+    async () => page.evaluate(() => window.__skyfallDev.getState().currentSceneKey)
+  ).toBe(sceneKey);
 }
 
 test.describe("Deep flows", () => {
@@ -41,6 +44,45 @@ test.describe("Deep flows", () => {
       return JSON.parse(raw).settings?.musicVolume ?? null;
     });
     expect(vol).toBe(0.37);
+  });
+
+  test("options changes persist through menu navigation and reload", async ({ page }) => {
+    await page.addInitScript(() => {
+      if (!localStorage.getItem("skyfall_save")) {
+        localStorage.setItem(
+          "skyfall_save",
+          JSON.stringify({
+            version: 2,
+            tutorialCompleted: true,
+            tutorialOptOut: false,
+            settings: { musicVolume: 1, screenShakeIntensity: 1 }
+          })
+        );
+      }
+    });
+    await page.goto("/");
+    const canvas = page.locator(CANVAS);
+    await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await expectSceneActive(page, "mainMenuScene");
+
+    const box = await canvas.boundingBox();
+    expect(box).toBeTruthy();
+    const gameW = 1280;
+    const gameH = 720;
+    await page.mouse.click(box.x + (box.width * 100) / gameW, box.y + (box.height * 332) / gameH);
+    await expectSceneActive(page, "optionsScene");
+
+    await page.mouse.click(box.x + (box.width * 350) / gameW, box.y + (box.height * 160) / gameH);
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().options.musicVolume)
+    ).toBeCloseTo(0.9, 5);
+
+    await page.reload({ waitUntil: "load" });
+    await expect(page.locator(CANVAS)).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
+    await waitForDevGame(page);
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().options.musicVolume)
+    ).toBeCloseTo(0.9, 5);
   });
 
   test("achievements scene boots from DEV scene switch", async ({ page }) => {

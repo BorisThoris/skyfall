@@ -13,11 +13,14 @@ async function skipTutorialOnBoot(page) {
 }
 
 async function expectSceneActive(page, sceneKey) {
-  await page.waitForFunction(() => Boolean(window.__skyfallDev?.game));
+  await page.waitForFunction(() => Boolean(window.__skyfallDev?.getState));
   await page.waitForFunction(
-    (key) => window.__skyfallDev?.game?.scene?.isActive(key) === true,
+    (key) => window.__skyfallDev?.getState?.().currentSceneKey === key,
     sceneKey
   );
+  await expect.poll(
+    async () => page.evaluate(() => window.__skyfallDev.getState().currentSceneKey)
+  ).toBe(sceneKey);
 }
 
 test.describe("Game scene", () => {
@@ -34,6 +37,9 @@ test.describe("Game scene", () => {
     const canvas = page.locator(GAME_CANVAS);
     await expect(canvas).toBeVisible();
     await expectSceneActive(page, "gameScene");
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().selectedMode)
+    ).toBe("Classic");
   });
 
   test("short gameplay with arrow key keeps canvas visible and does not crash", async ({ page }) => {
@@ -42,6 +48,9 @@ test.describe("Game scene", () => {
     const canvas = page.locator(GAME_CANVAS);
     await expect(canvas).toBeVisible({ timeout: 5000 });
     await expectSceneActive(page, "gameScene");
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().run.gameOverState)
+    ).toBe(false);
   });
 });
 

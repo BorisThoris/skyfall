@@ -6,15 +6,18 @@ const CANVAS_SELECTOR = "#phaser-example canvas";
 const PHASER_CONTAINER = "#phaser-example";
 
 async function waitForDevGame(page) {
-  await page.waitForFunction(() => Boolean(window.__skyfallDev?.game));
+  await page.waitForFunction(() => Boolean(window.__skyfallDev?.getState));
 }
 
 async function expectSceneActive(page, sceneKey) {
   await waitForDevGame(page);
   await page.waitForFunction(
-    (key) => window.__skyfallDev?.game?.scene?.isActive(key) === true,
+    (key) => window.__skyfallDev?.getState?.().currentSceneKey === key,
     sceneKey
   );
+  await expect.poll(
+    async () => page.evaluate(() => window.__skyfallDev.getState().currentSceneKey)
+  ).toBe(sceneKey);
 }
 
 async function skipTutorialOnBoot(page) {
@@ -105,22 +108,25 @@ test.describe("Boot and menu", () => {
       }
     });
     await page.goto("/");
-    const container = page.locator(PHASER_CONTAINER);
     const canvas = page.locator(CANVAS_SELECTOR);
     await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
     await expectSceneActive(page, "mainMenuScene");
     consoleErrors.length = 0;
-    const box = await container.boundingBox();
+    const box = await canvas.boundingBox();
     expect(box).toBeTruthy();
     const gameW = 1280;
     const gameH = 720;
     // Left panel "Play" row (see mainMenuScene menuYStart + first item)
-    const playX = 96;
+    const playX = 56;
     const playY = 284;
     const clickX = box.x + (box.width * playX) / gameW;
     const clickY = box.y + (box.height * playY) / gameH;
     await page.mouse.click(clickX, clickY);
     await expect(canvas).toBeVisible();
+    await expectSceneActive(page, "gameScene");
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().lastTransition?.to)
+    ).toBe("gameScene");
     expect(
       consoleErrors,
       `Console errors after start: ${JSON.stringify(consoleErrors)}`
@@ -140,6 +146,11 @@ test.describe("Boot and menu", () => {
     const canvas = page.locator(CANVAS_SELECTOR);
     await expect(canvas).toBeVisible({ timeout: PAGE_LOAD_TIMEOUT });
     expect(page.url()).toContain("#/editor");
+    await waitForDevGame(page);
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().editorAvailable)
+    ).toBe(true);
+    await expectSceneActive(page, "editorScene");
     expect(
       consoleErrors,
       `Console errors on #/editor: ${JSON.stringify(consoleErrors)}`
@@ -171,18 +182,18 @@ test.describe("Boot and menu", () => {
     const clickAchievementsX = box.x + (box.width * achievementsItemX) / gameW;
     const clickAchievementsY = box.y + (box.height * achievementsItemY) / gameH;
     await page.mouse.click(clickAchievementsX, clickAchievementsY);
-    await page.waitForTimeout(400);
     await expect(canvas).toBeVisible();
+    await expectSceneActive(page, "achievementsScene");
     expect(
       consoleErrors,
       `Console errors after opening Achievements: ${JSON.stringify(consoleErrors)}`
     ).toHaveLength(0);
 
     const backX = box.x + (box.width * 640) / gameW;
-    const backY = box.y + (box.height * 620) / gameH;
+    const backY = box.y + (box.height * 640) / gameH;
     await page.mouse.click(backX, backY);
-    await page.waitForTimeout(300);
     await expect(canvas).toBeVisible();
+    await expectSceneActive(page, "mainMenuScene");
     expect(
       consoleErrors,
       `Console errors after Back: ${JSON.stringify(consoleErrors)}`

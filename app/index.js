@@ -67,7 +67,63 @@ const config = {
 
 const game = new Phaser.Game(config);
 if (import.meta.env.DEV) {
-  window.__skyfallDev = { game, GAME_VERSION };
+  const transitionLog = [];
+  const getActiveSceneKeys = () =>
+    (game.scene?.scenes || [])
+      .filter((scene) => game.scene.isActive(scene.sys.settings.key))
+      .map((scene) => scene.sys.settings.key);
+  const getCurrentSceneKey = () => getActiveSceneKeys().at(-1) || null;
+  const originalSceneStart = game.scene.start.bind(game.scene);
+  game.scene.start = (sceneKey, ...args) => {
+    transitionLog.push({
+      from: getCurrentSceneKey(),
+      to: sceneKey,
+      at: Date.now()
+    });
+    if (transitionLog.length > 12) {
+      transitionLog.shift();
+    }
+    return originalSceneStart(sceneKey, ...args);
+  };
+  const getSceneSnapshot = () => {
+    const currentSceneKey = getCurrentSceneKey();
+    const menuScene = game.scene.getScene(SCENE_KEYS.mainMenu);
+    const gameScene = game.scene.getScene(SCENE_KEYS.game);
+    const settings = getSettings();
+    return {
+      version: GAME_VERSION,
+      currentSceneKey,
+      activeSceneKeys: getActiveSceneKeys(),
+      editorAvailable: Boolean(game.scene.getScene(SCENE_KEYS.editor)),
+      selectedMode: gameScene?.mode || menuScene?.selectedMode || null,
+      selectedArchetypeId: gameScene?.selectedArchetypeId || menuScene?.selectedArchetypeId || null,
+      options: {
+        musicVolume: settings.musicVolume,
+        sfxVolume: settings.sfxVolume,
+        screenShakeIntensity: settings.screenShakeIntensity,
+        flashIntensity: settings.flashIntensity,
+        colorBlindPaletteMode: settings.colorBlindPaletteMode,
+        reduceMotionSafeMode: settings.reduceMotionSafeMode,
+        allowAnonymousAnalytics: settings.allowAnonymousAnalytics
+      },
+      run: {
+        score: gameScene?.getScore ? gameScene.getScore() : 0,
+        runTimeMs: gameScene?.runTimeMs || 0,
+        gameOverState: gameScene?.gameOverState ?? false,
+        gameOverVisible: Boolean(gameScene?.gameOverPanel?.visible && gameScene?.gameOverText?.visible),
+        replayVisible: Boolean(gameScene?.replayButton?.visible || gameScene?.playAgainText?.visible),
+        paused: Boolean(gameScene?.paused),
+        challengeVisible: Boolean(gameScene?.activeChallenge),
+        perkDraftVisible: Boolean(gameScene?.pendingPerkChoices)
+      },
+      lastTransition: transitionLog.at(-1) || null
+    };
+  };
+  window.__skyfallDev = {
+    game,
+    GAME_VERSION,
+    getState: getSceneSnapshot
+  };
 }
 initMobileControls();
 if (!isMobile()) document.body.classList.add("desktop-build");

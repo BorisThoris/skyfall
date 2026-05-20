@@ -4,76 +4,101 @@ import { test, expect } from "@playwright/test";
 const CANVAS_SELECTOR = "#phaser-example canvas";
 const GET_READY_MS = 2800;
 const CHALLENGE_WAIT_MS = 5000;
-const GAME_OVER_WAIT_MS = 20000;
 const GENEROUS_TIMEOUT_MS = 50000;
+
+async function skipTutorialOnBoot(page) {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "skyfall_save",
+      JSON.stringify({ version: 2, tutorialCompleted: true, tutorialOptOut: false })
+    );
+  });
+}
+
+async function expectSceneActive(page, sceneKey) {
+  await page.waitForFunction(() => Boolean(window.__skyfallDev?.getState));
+  await page.waitForFunction(
+    (key) => window.__skyfallDev?.getState?.().currentSceneKey === key,
+    sceneKey
+  );
+  await expect.poll(
+    async () => page.evaluate(() => window.__skyfallDev.getState().currentSceneKey)
+  ).toBe(sceneKey);
+}
+
+async function startGame(page) {
+  await skipTutorialOnBoot(page);
+  await page.goto("/");
+  const canvas = page.locator(CANVAS_SELECTOR);
+  await expect(canvas).toBeVisible({ timeout: 10000 });
+  await expectSceneActive(page, "mainMenuScene");
+  await page.keyboard.press("Space");
+  await expect(canvas).toBeVisible();
+  await expectSceneActive(page, "gameScene");
+  return canvas;
+}
+
+async function forceGameOver(page) {
+  await page.evaluate(() => {
+    const scene = window.__skyfallDev.game.scene.getScene("gameScene");
+    scene.endRun();
+  });
+  await expect.poll(async () =>
+    page.evaluate(() => window.__skyfallDev.getState().run.gameOverState)
+  ).toBe("ended");
+  await expect.poll(async () =>
+    page.evaluate(() => window.__skyfallDev.getState().run.gameOverVisible)
+  ).toBe(true);
+}
 
 test.describe("Panels and game over", () => {
   test("game reaches game-over when player dies", async ({ page }) => {
     test.setTimeout(GENEROUS_TIMEOUT_MS);
 
-    await page.goto("/");
-    const canvas = page.locator(CANVAS_SELECTOR);
-    await expect(canvas).toBeVisible({ timeout: 10000 });
+    const canvas = await startGame(page);
+    await forceGameOver(page);
 
-    await page.keyboard.press("Space");
     await expect(canvas).toBeVisible();
-
-    // Wait for "Get Ready" to finish (~2.5s)
-    await page.waitForTimeout(GET_READY_MS);
-
-    // Let the game run; hazards will eventually hit (no movement or optional movement).
-    // Allow up to 20s for game over to occur.
-    await page.waitForTimeout(GAME_OVER_WAIT_MS);
-
-    // Resilient assertion: canvas still visible (game over screen or still playing).
-    await expect(canvas).toBeVisible();
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().run.replayVisible)
+    ).toBe(true);
   });
 
-  test("challenge panel can appear", async ({ page }) => {
+  test("challenge panel wait keeps the game scene stateful", async ({ page }) => {
     test.setTimeout(GENEROUS_TIMEOUT_MS);
 
-    await page.goto("/");
-    const canvas = page.locator(CANVAS_SELECTOR);
-    await expect(canvas).toBeVisible({ timeout: 10000 });
-
-    await page.keyboard.press("Space");
-    await expect(canvas).toBeVisible();
-
+    const canvas = await startGame(page);
     await page.waitForTimeout(GET_READY_MS);
-
-    // Wait ~5s; challenges may spawn by score/time. Challenge panel is rendered in canvas
-    // (no DOM overlay), so we cannot detect it from DOM. Assert canvas still visible (no crash).
     await page.waitForTimeout(CHALLENGE_WAIT_MS);
 
     await expect(canvas).toBeVisible();
+    await expectSceneActive(page, "gameScene");
+    await expect.poll(async () =>
+      page.evaluate(() => {
+        const state = window.__skyfallDev.getState();
+        return state.run.challengeVisible || state.run.perkDraftVisible || state.run.gameOverState === false;
+      })
+    ).toBe(true);
   });
 
   test("game over and replay", async ({ page }) => {
     test.setTimeout(GENEROUS_TIMEOUT_MS);
 
-    await page.goto("/");
-    const canvas = page.locator(CANVAS_SELECTOR);
-    await expect(canvas).toBeVisible({ timeout: 10000 });
-
-    await page.keyboard.press("Space");
+    const canvas = await startGame(page);
+    await forceGameOver(page);
     await expect(canvas).toBeVisible();
 
-    await page.waitForTimeout(GET_READY_MS);
+    await page.evaluate(() => {
+      window.__skyfallDev.game.scene.getScene("gameScene").resetRun();
+    });
 
-    // Run until game over (15вЂ“20s); replay is a Phaser sprite inside canvas, not a DOM element.
-    await page.waitForTimeout(GAME_OVER_WAIT_MS);
-
-    await expect(canvas).toBeVisible();
-
-    // Click center-bottom of canvas to trigger replay (replay button at game y ~518/720).
-    const box = await canvas.boundingBox();
-    if (box) {
-      const x = box.x + box.width / 2;
-      const y = box.y + box.height * (518 / 720);
-      await page.mouse.click(x, y);
-    }
-
-    // After replay, game restarts in same scene; canvas should still be visible.
     await expect(canvas).toBeVisible({ timeout: 5000 });
+    await expectSceneActive(page, "gameScene");
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().run.gameOverState)
+    ).toBe(false);
+    await expect.poll(async () =>
+      page.evaluate(() => window.__skyfallDev.getState().run.replayVisible)
+    ).toBe(false);
   });
 });
