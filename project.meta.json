@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-03T20:39:07.802Z",
+  "generatedAt": "2026-09-03T20:45:30.998Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -139,7 +139,7 @@
   "metrics": {
     "sourceFiles": 88,
     "testFiles": 20,
-    "sourceLines": 14007,
+    "sourceLines": 14010,
     "largestDirectories": [
       {
         "directory": "app",
@@ -178,10 +178,10 @@
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
     "branch": "ai/refine-skyfall-cycle-02",
-    "head": "3296eee7",
-    "lastCommitDate": "2026-05-20T23:22:25+03:00",
-    "lastCommitSubject": "Preserve verified work before AI refine skyfall",
-    "commitCount": 139,
+    "head": "8cd87a8f",
+    "lastCommitDate": "2026-09-03T23:42:37+03:00",
+    "lastCommitSubject": "Wire up the meta scripts",
+    "commitCount": 141,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
