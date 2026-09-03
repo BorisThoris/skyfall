@@ -20,7 +20,9 @@
     "preview": "vite preview",
     "electron:dev": "electron .",
     "electron:build": "vite build && electron-builder",
-    "telemetry:aggregate": "node scripts/telemetry/aggregateTelemetry.js"
+    "telemetry:aggregate": "node scripts/telemetry/aggregateTelemetry.js",
+    "meta": "node scripts/generate-project-meta.mjs",
+    "meta:check": "node scripts/generate-project-meta.mjs --check"
   },
   "author": "",
   "license": "ISC",
