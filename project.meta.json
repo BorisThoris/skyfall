@@ -1,0 +1,191 @@
+{
+  "$schema": "./scripts/project.meta.schema.json",
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-03T20:39:07.802Z",
+  "generatedBy": "scripts/generate-project-meta.mjs",
+  "identity": {
+    "slug": "skyfall",
+    "repoName": "skyfall",
+    "packageName": "skyfall",
+    "version": "1.0.0",
+    "title": "Skyfall",
+    "subtitle": "Phaser endless dodger",
+    "description": "A Phaser 3 arcade game with heat phases, bosses, perks, achievements, local progression, accessibility options, and Electron packaging.",
+    "tags": [
+      "Phaser",
+      "Vite",
+      "Electron",
+      "Game Systems"
+    ],
+    "accent": "#ef4444",
+    "classification": "web-app",
+    "showcaseTier": "more"
+  },
+  "links": {
+    "deploymentUrl": "https://skyfall-git.pages.dev/",
+    "localUrl": "http://127.0.0.1:4104/",
+    "repository": "https://github.com/BorisThoris/skyfall"
+  },
+  "runtime": {
+    "packageManager": "npm",
+    "buildCommand": "npm run build",
+    "buildOutput": "dist",
+    "runCommand": "npm run dev -- --host 127.0.0.1 --port 4104",
+    "devPort": 4104,
+    "scripts": [
+      "test",
+      "test:e2e",
+      "agents:plan",
+      "agents:launch",
+      "agents:wave01",
+      "agents:wave01:plan",
+      "agents:wave02",
+      "agents:wave02:plan",
+      "agents:wave05:plan",
+      "dev",
+      "dev:3000",
+      "build",
+      "preview",
+      "electron:dev",
+      "electron:build",
+      "telemetry:aggregate",
+      "meta",
+      "meta:check"
+    ]
+  },
+  "capture": {
+    "route": "/",
+    "waitAfterReadyMs": 2200
+  },
+  "media": {
+    "source": "portfolio-capture",
+    "directory": "C:/Users/Gaming PC/Desktop/Repos/portfolio/public/project-shots/skyfall/latest",
+    "primary": "/project-shots/skyfall/latest/card.jpg",
+    "images": [
+      {
+        "profile": "card",
+        "file": "card.jpg",
+        "path": "/project-shots/skyfall/latest/card.jpg",
+        "bytes": 73012,
+        "width": 1600,
+        "height": 900,
+        "capturedAt": "2026-08-27T12:12:09.656Z"
+      },
+      {
+        "profile": "desktop",
+        "file": "desktop.jpg",
+        "path": "/project-shots/skyfall/latest/desktop.jpg",
+        "bytes": 71467,
+        "width": 1440,
+        "height": 900,
+        "capturedAt": "2026-08-27T12:12:12.754Z"
+      },
+      {
+        "profile": "full",
+        "file": "full.jpg",
+        "path": "/project-shots/skyfall/latest/full.jpg",
+        "bytes": 62142,
+        "width": 1440,
+        "height": 900,
+        "capturedAt": "2026-08-27T12:12:19.137Z"
+      },
+      {
+        "profile": "main",
+        "file": "main.png",
+        "path": "/project-shots/skyfall/main.png",
+        "bytes": 112008,
+        "width": 1249,
+        "height": 1225,
+        "capturedAt": "2026-05-14T22:34:28.363Z"
+      },
+      {
+        "profile": "mobile",
+        "file": "mobile.jpg",
+        "path": "/project-shots/skyfall/latest/mobile.jpg",
+        "bytes": 16787,
+        "width": 430,
+        "height": 932,
+        "capturedAt": "2026-08-27T12:12:15.958Z"
+      }
+    ]
+  },
+  "stack": {
+    "framework": "Phaser",
+    "language": "JavaScript",
+    "runtimeTargets": [
+      "web",
+      "desktop-electron"
+    ],
+    "libraries": [
+      {
+        "name": "phaser",
+        "version": "^3.90.0"
+      },
+      {
+        "name": "vite",
+        "version": "^6.4.1"
+      },
+      {
+        "name": "electron",
+        "version": "^28.0.0"
+      }
+    ],
+    "testing": [
+      "@playwright/test"
+    ],
+    "dependencyCount": 2,
+    "devDependencyCount": 4
+  },
+  "metrics": {
+    "sourceFiles": 88,
+    "testFiles": 20,
+    "sourceLines": 14007,
+    "largestDirectories": [
+      {
+        "directory": "app",
+        "files": 58
+      },
+      {
+        "directory": "test",
+        "files": 15
+      },
+      {
+        "directory": "e2e",
+        "files": 5
+      },
+      {
+        "directory": ".",
+        "files": 5
+      },
+      {
+        "directory": "scripts",
+        "files": 3
+      }
+    ],
+    "hasReadme": true,
+    "hasTests": true,
+    "hasCi": true,
+    "hasDocs": true
+  },
+  "scores": {
+    "priorityScore": 76,
+    "demoabilityScore": 92,
+    "depthScore": 88,
+    "polishScore": 86,
+    "uniquenessScore": 86,
+    "maintenanceScore": 82
+  },
+  "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
+  "git": {
+    "branch": "ai/refine-skyfall-cycle-02",
+    "head": "3296eee7",
+    "lastCommitDate": "2026-05-20T23:22:25+03:00",
+    "lastCommitSubject": "Preserve verified work before AI refine skyfall",
+    "commitCount": 139,
+    "remote": "https://github.com/BorisThoris/skyfall.git"
+  },
+  "readme": {
+    "file": "README.md",
+    "heading": "Skyfall"
+  }
+}
