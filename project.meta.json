@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T20:52:43.952Z",
+  "generatedAt": "2026-09-14T21:36:20.732Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -145,7 +145,7 @@
   "metrics": {
     "sourceFiles": 92,
     "testFiles": 20,
-    "sourceLines": 14964,
+    "sourceLines": 14975,
     "largestDirectories": [
       {
         "directory": "app",
@@ -184,10 +184,10 @@
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
     "branch": "ai/refine-skyfall-cycle-02",
-    "head": "4c6bd0e4",
-    "lastCommitDate": "2026-09-14T23:32:56+03:00",
-    "lastCommitSubject": "Add the icon set and the one-command metadata refresh",
-    "commitCount": 145,
+    "head": "89065bb2",
+    "lastCommitDate": "2026-09-14T23:58:43+03:00",
+    "lastCommitSubject": "Sync the metadata toolkit scripts and regenerate project.meta.json",
+    "commitCount": 146,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
