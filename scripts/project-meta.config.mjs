@@ -63,6 +63,13 @@ export default {
     "imageUrlPath": "/og-image.jpg"
   },
 
+  // The icon set is rendered from favicon.svg by scripts/generate-app-icons.mjs.
+  icons: {
+    "background": "#0b1a3a",
+    "themeColor": "#0b1a3a",
+    "shortName": "Skyfall"
+  },
+
   media: {
     sourceDir: path.join(portfolioRoot, "public", "project-shots", "skyfall", "latest"),
     publicPathPrefix: "/project-shots/skyfall/latest",

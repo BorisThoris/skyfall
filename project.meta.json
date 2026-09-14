@@ -1,11 +1,11 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-03T21:50:29.140Z",
+  "generatedAt": "2026-09-14T20:32:15.232Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
-    "repoName": "skyfall",
+    "repoName": "skyfall-master-wt",
     "packageName": "skyfall",
     "version": "1.0.0",
     "title": "Skyfall",
@@ -53,7 +53,10 @@
       "meta:check",
       "shots",
       "social",
-      "social:check"
+      "social:check",
+      "icons",
+      "icons:check",
+      "meta:refresh"
     ]
   },
   "capture": {
@@ -62,7 +65,7 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "C:/Users/Gaming PC/Desktop/Repos/skyfall/project-media",
+    "directory": "C:/Users/Gaming PC/AppData/Local/Temp/claude/skyfall-master-wt/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
@@ -72,7 +75,7 @@
         "bytes": 70588,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-03T21:35:13.237Z"
+        "capturedAt": "2026-09-14T20:31:53.664Z"
       },
       {
         "profile": "desktop",
@@ -81,7 +84,7 @@
         "bytes": 68948,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-03T21:35:16.066Z"
+        "capturedAt": "2026-09-14T20:31:53.668Z"
       },
       {
         "profile": "full",
@@ -90,7 +93,7 @@
         "bytes": 60049,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-03T21:35:21.765Z"
+        "capturedAt": "2026-09-14T20:31:53.670Z"
       },
       {
         "profile": "mobile",
@@ -99,7 +102,7 @@
         "bytes": 16053,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-03T21:35:18.890Z"
+        "capturedAt": "2026-09-14T20:31:53.673Z"
       },
       {
         "profile": "og",
@@ -108,7 +111,7 @@
         "bytes": 48808,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-03T21:35:24.725Z"
+        "capturedAt": "2026-09-14T20:31:53.675Z"
       }
     ]
   },
@@ -140,9 +143,9 @@
     "devDependencyCount": 4
   },
   "metrics": {
-    "sourceFiles": 90,
+    "sourceFiles": 92,
     "testFiles": 20,
-    "sourceLines": 14471,
+    "sourceLines": 14610,
     "largestDirectories": [
       {
         "directory": "app",
@@ -153,15 +156,15 @@
         "files": 15
       },
       {
+        "directory": "scripts",
+        "files": 7
+      },
+      {
         "directory": "e2e",
         "files": 5
       },
       {
         "directory": ".",
-        "files": 5
-      },
-      {
-        "directory": "scripts",
         "files": 5
       }
     ],
@@ -180,10 +183,10 @@
   },
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
-    "branch": "ai/refine-skyfall-cycle-02",
-    "head": "c411513e",
-    "lastCommitDate": "2026-09-03T23:46:14+03:00",
-    "lastCommitSubject": "Refresh project metadata",
+    "branch": "meta/master-toolkit",
+    "head": "490be31f",
+    "lastCommitDate": "2026-09-14T23:31:53+03:00",
+    "lastCommitSubject": "Wire up the shots and social scripts",
     "commitCount": 142,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
