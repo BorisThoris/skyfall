@@ -1,11 +1,11 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T21:41:34.296Z",
+  "generatedAt": "2026-09-14T22:07:13.336Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
-    "repoName": "skyfall-gate-wt",
+    "repoName": "skyfall",
     "packageName": "skyfall",
     "version": "1.0.0",
     "title": "Skyfall",
@@ -65,7 +65,7 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "C:/Users/Gaming PC/AppData/Local/Temp/claude/skyfall-gate-wt/project-media",
+    "directory": "C:/Users/Gaming PC/AppData/Local/Temp/claude/skyfall-rf-wt/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
@@ -75,7 +75,7 @@
         "bytes": 70588,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-14T21:41:28.446Z"
+        "capturedAt": "2026-09-14T22:07:10.264Z"
       },
       {
         "profile": "desktop",
@@ -84,7 +84,7 @@
         "bytes": 68948,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T21:41:28.449Z"
+        "capturedAt": "2026-09-14T22:07:10.267Z"
       },
       {
         "profile": "full",
@@ -93,7 +93,7 @@
         "bytes": 60049,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T21:41:28.453Z"
+        "capturedAt": "2026-09-14T22:07:10.269Z"
       },
       {
         "profile": "mobile",
@@ -102,7 +102,7 @@
         "bytes": 16053,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-14T21:41:28.462Z"
+        "capturedAt": "2026-09-14T22:07:10.283Z"
       },
       {
         "profile": "og",
@@ -111,7 +111,7 @@
         "bytes": 48808,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-14T21:41:28.466Z"
+        "capturedAt": "2026-09-14T22:07:10.286Z"
       }
     ]
   },
@@ -145,7 +145,7 @@
   "metrics": {
     "sourceFiles": 92,
     "testFiles": 20,
-    "sourceLines": 14644,
+    "sourceLines": 14653,
     "largestDirectories": [
       {
         "directory": "app",
@@ -183,11 +183,11 @@
   },
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
-    "branch": "meta/gate-5742a6d9",
-    "head": "1d151e05",
-    "lastCommitDate": "2026-09-14T23:58:52+03:00",
-    "lastCommitSubject": "Refresh project metadata for master",
-    "commitCount": 144,
+    "branch": "meta/rf-c66b3259",
+    "head": "325ebfbb",
+    "lastCommitDate": "2026-09-15T00:41:36+03:00",
+    "lastCommitSubject": "Gate pushes on a current link-preview card and icon set",
+    "commitCount": 145,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
