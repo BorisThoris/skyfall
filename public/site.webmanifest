@@ -1,0 +1,28 @@
+{
+  "name": "Skyfall",
+  "short_name": "Skyfall",
+  "description": "A Phaser 3 arcade game with heat phases, bosses, perks, achievements, local progression, accessibility options, and Electron packaging.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1a3a",
+  "theme_color": "#0b1a3a",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
