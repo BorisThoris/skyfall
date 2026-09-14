@@ -1,11 +1,11 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T20:58:51.489Z",
+  "generatedAt": "2026-09-14T21:41:34.296Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
-    "repoName": "skyfall-sync-wt",
+    "repoName": "skyfall-gate-wt",
     "packageName": "skyfall",
     "version": "1.0.0",
     "title": "Skyfall",
@@ -65,7 +65,7 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "C:/Users/Gaming PC/AppData/Local/Temp/claude/skyfall-sync-wt/project-media",
+    "directory": "C:/Users/Gaming PC/AppData/Local/Temp/claude/skyfall-gate-wt/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
@@ -75,7 +75,7 @@
         "bytes": 70588,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-14T20:58:49.153Z"
+        "capturedAt": "2026-09-14T21:41:28.446Z"
       },
       {
         "profile": "desktop",
@@ -84,7 +84,7 @@
         "bytes": 68948,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T20:58:49.154Z"
+        "capturedAt": "2026-09-14T21:41:28.449Z"
       },
       {
         "profile": "full",
@@ -93,7 +93,7 @@
         "bytes": 60049,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T20:58:49.156Z"
+        "capturedAt": "2026-09-14T21:41:28.453Z"
       },
       {
         "profile": "mobile",
@@ -102,7 +102,7 @@
         "bytes": 16053,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-14T20:58:49.159Z"
+        "capturedAt": "2026-09-14T21:41:28.462Z"
       },
       {
         "profile": "og",
@@ -111,7 +111,7 @@
         "bytes": 48808,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-14T20:58:49.161Z"
+        "capturedAt": "2026-09-14T21:41:28.466Z"
       }
     ]
   },
@@ -145,7 +145,7 @@
   "metrics": {
     "sourceFiles": 92,
     "testFiles": 20,
-    "sourceLines": 14633,
+    "sourceLines": 14644,
     "largestDirectories": [
       {
         "directory": "app",
@@ -183,11 +183,11 @@
   },
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
-    "branch": "meta/sync-89065bb2",
-    "head": "a9197fd0",
-    "lastCommitDate": "2026-09-14T23:32:30+03:00",
-    "lastCommitSubject": "Add the icon set and the one-command metadata refresh",
-    "commitCount": 143,
+    "branch": "meta/gate-5742a6d9",
+    "head": "1d151e05",
+    "lastCommitDate": "2026-09-14T23:58:52+03:00",
+    "lastCommitSubject": "Refresh project metadata for master",
+    "commitCount": 144,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
