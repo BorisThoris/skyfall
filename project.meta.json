@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T22:35:53.075Z",
+  "generatedAt": "2026-09-15T12:21:53.909Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -9,13 +9,14 @@
     "packageName": "skyfall",
     "version": "1.0.0",
     "title": "Skyfall",
-    "subtitle": "Phaser endless dodger",
-    "description": "A Phaser 3 arcade game with heat phases, bosses, perks, achievements, local progression, accessibility options, and Electron packaging.",
+    "subtitle": "An endless dodger with heat, bosses and perk drafts",
+    "description": "A Phaser 3 endless dodger: survive escalating waves as the heat rises, break boss encounters, draft perks between runs, and chase daily contracts, achievements and meta progression, with motion, flash and control options for accessibility. Vite in the browser, Electron on the desktop.",
     "tags": [
+      "Game",
       "Phaser",
-      "Vite",
+      "Arcade",
       "Electron",
-      "Game Systems"
+      "Accessibility"
     ],
     "accent": "#ef4444",
     "classification": "web-app",
@@ -65,7 +66,7 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/skyfall/skyfall/project-media",
+    "directory": "C:/Users/Gaming PC/AppData/Local/Temp/claude/skyfall-copy-wt/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
@@ -75,7 +76,7 @@
         "bytes": 67798,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-14T22:35:40.441Z"
+        "capturedAt": "2026-09-15T12:21:49.971Z"
       },
       {
         "profile": "desktop",
@@ -84,7 +85,7 @@
         "bytes": 66163,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T22:35:43.567Z"
+        "capturedAt": "2026-09-15T12:21:49.978Z"
       },
       {
         "profile": "full",
@@ -93,7 +94,7 @@
         "bytes": 58089,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T22:35:49.763Z"
+        "capturedAt": "2026-09-15T12:21:49.982Z"
       },
       {
         "profile": "mobile",
@@ -102,7 +103,7 @@
         "bytes": 15847,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-14T22:35:46.479Z"
+        "capturedAt": "2026-09-15T12:21:49.988Z"
       },
       {
         "profile": "og",
@@ -111,7 +112,7 @@
         "bytes": 48692,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-14T22:35:52.896Z"
+        "capturedAt": "2026-09-15T12:21:49.993Z"
       }
     ]
   },
@@ -145,7 +146,7 @@
   "metrics": {
     "sourceFiles": 92,
     "testFiles": 20,
-    "sourceLines": 14653,
+    "sourceLines": 14697,
     "largestDirectories": [
       {
         "directory": "app",
@@ -183,12 +184,12 @@
   },
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
-    "branch": "master",
-    "head": "27fbaa25",
-    "lastCommitDate": "2026-09-15T01:07:14+03:00",
-    "lastCommitSubject": "Refresh screenshots, card, icons and metadata after every deployment",
-    "commitCount": 146,
-    "remote": "https://github.com/BorisThoris/skyfall"
+    "branch": "meta/copy-8df83699",
+    "head": "24942cb8",
+    "lastCommitDate": "2026-09-15T01:51:39+03:00",
+    "lastCommitSubject": "Let the refresh wait up to 90 minutes for a queued Cloudflare build [meta-bot]",
+    "commitCount": 148,
+    "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
     "file": "README.md",
