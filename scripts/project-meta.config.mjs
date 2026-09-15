@@ -18,13 +18,14 @@ export default {
 
   curated: {
     "title": "Skyfall",
-    "subtitle": "Phaser endless dodger",
-    "description": "A Phaser 3 arcade game with heat phases, bosses, perks, achievements, local progression, accessibility options, and Electron packaging.",
+    "subtitle": "An endless dodger with heat, bosses and perk drafts",
+    "description": "A Phaser 3 endless dodger: survive escalating waves as the heat rises, break boss encounters, draft perks between runs, and chase daily contracts, achievements and meta progression, with motion, flash and control options for accessibility. Vite in the browser, Electron on the desktop.",
     "tags": [
+      "Game",
       "Phaser",
-      "Vite",
+      "Arcade",
       "Electron",
-      "Game Systems"
+      "Accessibility"
     ],
     "accent": "#ef4444",
     "deploymentUrl": "https://skyfall-git.pages.dev/",
@@ -58,6 +59,7 @@ export default {
   // Graph tags, and the static directory the image is published from.
   social: {
     "htmlFile": "index.html",
+    "pageTitle": "Skyfall",
     "staticDir": "public",
     "imageName": "og-image.jpg",
     "imageUrlPath": "/og-image.jpg"

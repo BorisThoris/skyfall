@@ -1,7 +1,7 @@
 {
   "name": "Skyfall",
   "short_name": "Skyfall",
-  "description": "A Phaser 3 arcade game with heat phases, bosses, perks, achievements, local progression, accessibility options, and Electron packaging.",
+  "description": "A Phaser 3 endless dodger: survive escalating waves as the heat rises, break boss encounters, draft perks between runs, and chase daily contracts, achievements and meta progression, with motion, flash and control options for accessibility. Vite in the browser, Electron on the desktop.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

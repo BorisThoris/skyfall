@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T22:07:01.561Z",
+  "generatedAt": "2026-09-15T12:15:30.325Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -9,13 +9,14 @@
     "packageName": "skyfall",
     "version": "1.0.0",
     "title": "Skyfall",
-    "subtitle": "Phaser endless dodger",
-    "description": "A Phaser 3 arcade game with heat phases, bosses, perks, achievements, local progression, accessibility options, and Electron packaging.",
+    "subtitle": "An endless dodger with heat, bosses and perk drafts",
+    "description": "A Phaser 3 endless dodger: survive escalating waves as the heat rises, break boss encounters, draft perks between runs, and chase daily contracts, achievements and meta progression, with motion, flash and control options for accessibility. Vite in the browser, Electron on the desktop.",
     "tags": [
+      "Game",
       "Phaser",
-      "Vite",
+      "Arcade",
       "Electron",
-      "Game Systems"
+      "Accessibility"
     ],
     "accent": "#ef4444",
     "classification": "web-app",
@@ -145,7 +146,7 @@
   "metrics": {
     "sourceFiles": 92,
     "testFiles": 20,
-    "sourceLines": 14984,
+    "sourceLines": 15028,
     "largestDirectories": [
       {
         "directory": "app",
@@ -184,10 +185,10 @@
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
     "branch": "ai/refine-skyfall-cycle-02",
-    "head": "5742a6d9",
-    "lastCommitDate": "2026-09-15T00:41:06+03:00",
-    "lastCommitSubject": "Gate pushes on a current link-preview card and icon set",
-    "commitCount": 147,
+    "head": "b85929f4",
+    "lastCommitDate": "2026-09-15T01:51:31+03:00",
+    "lastCommitSubject": "Let the refresh wait up to 90 minutes for a queued Cloudflare build [meta-bot]",
+    "commitCount": 149,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
