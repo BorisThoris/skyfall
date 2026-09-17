@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-15T12:15:30.325Z",
+  "generatedAt": "2026-09-17T10:21:40.934Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -73,46 +73,46 @@
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 70588,
+        "bytes": 72881,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-03T21:35:13.237Z"
+        "capturedAt": "2026-09-17T10:21:28.297Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 68948,
+        "bytes": 71269,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-03T21:35:16.066Z"
+        "capturedAt": "2026-09-17T10:21:31.002Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 60049,
+        "bytes": 62090,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-03T21:35:21.765Z"
+        "capturedAt": "2026-09-17T10:21:36.319Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 16053,
+        "bytes": 16809,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-03T21:35:18.890Z"
+        "capturedAt": "2026-09-17T10:21:33.597Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 48808,
+        "bytes": 52092,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-03T21:35:24.725Z"
+        "capturedAt": "2026-09-17T10:21:38.975Z"
       }
     ]
   },
@@ -185,10 +185,10 @@
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
     "branch": "ai/refine-skyfall-cycle-02",
-    "head": "b85929f4",
-    "lastCommitDate": "2026-09-15T01:51:31+03:00",
-    "lastCommitSubject": "Let the refresh wait up to 90 minutes for a queued Cloudflare build [meta-bot]",
-    "commitCount": 149,
+    "head": "8df83699",
+    "lastCommitDate": "2026-09-15T15:21:41+03:00",
+    "lastCommitSubject": "Say what the app actually is: specific title, blurb and tags for the card",
+    "commitCount": 150,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {

@@ -1,8 +1,8 @@
 {
   "slug": "skyfall",
-  "capturedAt": "2026-09-03T21:35:24.822Z",
-  "source": "deployment",
-  "url": "https://skyfall-git.pages.dev/",
+  "capturedAt": "2026-09-17T10:21:39.080Z",
+  "source": "explicit",
+  "url": "http://127.0.0.1:8088/skyfall/",
   "recipe": {
     "route": "/",
     "waitAfterReadyMs": 2200
@@ -13,7 +13,7 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 70588,
+      "bytes": 72881,
       "status": "captured"
     },
     {
@@ -21,7 +21,7 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 68948,
+      "bytes": 71269,
       "status": "captured"
     },
     {
@@ -29,7 +29,7 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 16053,
+      "bytes": 16809,
       "status": "captured"
     },
     {
@@ -37,7 +37,7 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 60049,
+      "bytes": 62090,
       "status": "captured"
     },
     {
@@ -45,7 +45,7 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 48808,
+      "bytes": 52092,
       "status": "captured"
     }
   ]
