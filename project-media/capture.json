@@ -1,11 +1,13 @@
 {
   "slug": "skyfall",
-  "capturedAt": "2026-09-24T16:24:32.756Z",
+  "capturedAt": "2026-09-27T13:05:31.773Z",
   "source": "deployment",
   "url": "https://skyfall-git.pages.dev/",
   "recipe": {
     "route": "/",
-    "waitAfterReadyMs": 2200
+    "readySelector": "canvas",
+    "readyState": "visible",
+    "waitAfterReadyMs": 3500
   },
   "profiles": [
     {
@@ -13,40 +15,75 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 68019,
-      "status": "captured"
+      "bytes": 70724,
+      "status": "captured",
+      "stats": {
+        "mean": 22,
+        "std": 13,
+        "dark": 0.239,
+        "light": 0,
+        "colours": 17
+      }
     },
     {
       "profile": "desktop",
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 66449,
-      "status": "captured"
+      "bytes": 69133,
+      "status": "captured",
+      "stats": {
+        "mean": 23,
+        "std": 13,
+        "dark": 0.166,
+        "light": 0,
+        "colours": 20
+      }
     },
     {
       "profile": "mobile",
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 15900,
-      "status": "captured"
+      "bytes": 16075,
+      "status": "captured",
+      "stats": {
+        "mean": 13,
+        "std": 14,
+        "dark": 0.723,
+        "light": 0,
+        "colours": 25
+      }
     },
     {
       "profile": "full",
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 58250,
-      "status": "captured"
+      "bytes": 60223,
+      "status": "captured",
+      "stats": {
+        "mean": 23,
+        "std": 13,
+        "dark": 0.166,
+        "light": 0,
+        "colours": 20
+      }
     },
     {
       "profile": "og",
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 48842,
-      "status": "captured"
+      "bytes": 49097,
+      "status": "captured",
+      "stats": {
+        "mean": 21,
+        "std": 13,
+        "dark": 0.322,
+        "light": 0,
+        "colours": 16
+      }
     }
   ]
 }

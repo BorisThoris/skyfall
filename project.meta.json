@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T16:24:32.891Z",
+  "generatedAt": "2026-09-27T13:05:35.544Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -59,62 +59,81 @@
       "icons:check",
       "meta:refresh",
       "trailers",
-      "trailers:check"
+      "trailers:check",
+      "test:media",
+      "test:media:e2e"
     ]
   },
   "capture": {
     "route": "/",
-    "waitAfterReadyMs": 2200
+    "readySelector": "canvas",
+    "readyState": "visible",
+    "waitAfterReadyMs": 3500
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/skyfall/skyfall/project-media",
+    "directory": "C:/Users/GAMING~1/AppData/Local/Temp/media-rollout-vA0Ztn/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 68019,
+        "bytes": 70724,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-24T16:24:20.354Z"
+        "capturedAt": "2026-09-27T13:04:54.500Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 66449,
+        "bytes": 69133,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T16:24:23.558Z"
+        "capturedAt": "2026-09-27T13:05:00.446Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 58250,
+        "bytes": 60223,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T16:24:29.729Z"
+        "capturedAt": "2026-09-27T13:05:12.211Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 15900,
+        "bytes": 16075,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-24T16:24:26.478Z"
+        "capturedAt": "2026-09-27T13:05:07.191Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 48842,
+        "bytes": 49097,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-24T16:24:32.716Z"
+        "capturedAt": "2026-09-27T13:05:17.290Z"
+      }
+    ],
+    "trailers": [
+      {
+        "id": "tour",
+        "title": "Skyfall: the menu and the drop",
+        "url": "https://skyfall-git.pages.dev/trailers/tour.mp4",
+        "poster": "https://skyfall-git.pages.dev/trailers/tour.jpg",
+        "file": "public/trailers/tour.mp4",
+        "bytes": 627226,
+        "width": 1280,
+        "height": 720,
+        "duration": 20,
+        "orientation": "landscape",
+        "builtAt": "2026-09-27T13:04:16.677Z"
       }
     ]
   },
@@ -146,9 +165,9 @@
     "devDependencyCount": 4
   },
   "metrics": {
-    "sourceFiles": 93,
-    "testFiles": 20,
-    "sourceLines": 15301,
+    "sourceFiles": 96,
+    "testFiles": 22,
+    "sourceLines": 16131,
     "largestDirectories": [
       {
         "directory": "app",
@@ -160,7 +179,7 @@
       },
       {
         "directory": "scripts",
-        "files": 8
+        "files": 11
       },
       {
         "directory": "e2e",
@@ -186,12 +205,12 @@
   },
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
-    "branch": "master",
-    "head": "ffb9ac24",
-    "lastCommitDate": "2026-09-24T19:12:59+03:00",
-    "lastCommitSubject": "Update the metadata toolkit scripts: trailers step, refresh --commit, capture.skip",
-    "commitCount": 156,
-    "remote": "https://github.com/BorisThoris/skyfall"
+    "branch": "HEAD",
+    "head": "a2f6e6fb",
+    "lastCommitDate": "2026-09-24T16:24:33+00:00",
+    "lastCommitSubject": "Refresh screenshots, card, icons and metadata [meta-bot]",
+    "commitCount": 157,
+    "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
     "file": "README.md",

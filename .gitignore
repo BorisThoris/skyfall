@@ -13,3 +13,5 @@
 # Large trailer/video masters (local only; see docs/TRAILER_NOTES.md)
 /marketing/*.mp4
 /marketing/**/*.mp4
+# recorded trailer masters (scripts/build-project-trailers.mjs)
+project-media/.captures/
