@@ -1,3 +1,4 @@
+import createMobileRunHud from "../ui/mobileRunHud";
 import musicBack from "../assets/backMusic(2).mp3";
 import gameOver from "../assets/gameOver.mp3";
 import ooGnome from "../assets/oo.mp3";
@@ -366,7 +367,17 @@ export default class DodgeGame extends BaseScene {
       setRichPresence("In game");
     }
 
+    const pauseOnFocusLoss = () => {
+      this.input.keyboard.resetKeys();
+      if (!this.gameOverState && !this.paused && !this.activeChallenge && !this.pendingPerkChoices) {
+        this.pause();
+      }
+    };
+    this.game.events.on("blur", pauseOnFocusLoss);
+    this.game.events.on("hidden", pauseOnFocusLoss);
     this.events.once("shutdown", () => {
+      this.game.events.off("blur", pauseOnFocusLoss);
+      this.game.events.off("hidden", pauseOnFocusLoss);
       this.stopAudio();
       this.input.off("pointerdown", this.onPointerDown, this);
     });
@@ -796,22 +807,23 @@ export default class DodgeGame extends BaseScene {
   }
 
   createHud() {
+    createMobileRunHud(this);
     this.scoreText = this.add.text(24, 18, "Score: 0", DODGE_HUD_STYLES.scoreText);
     this.scoreText.setStroke(HUD_STROKE.color, HUD_STROKE.width);
 
-    this.highestScore = this.add.text(24, 72, "Best: 0", DODGE_HUD_STYLES.highestScore);
+    this.highestScore = this.add.text(theme.spacing[6], theme.spacing[16], "Best: 0", { ...DODGE_HUD_STYLES.highestScore, wordWrap: { width: theme.spacing[64] + theme.spacing[32] } });
 
-    this.phaseText = this.add.text(912, 24, "Pressure: Recovery", DODGE_HUD_STYLES.phaseText);
+    this.phaseText = this.add.text(912, theme.spacing[18], "Pressure: Recovery", DODGE_HUD_STYLES.phaseText);
     this.phaseText.setStroke(HUD_STROKE.color, HUD_STROKE.width);
 
-    this.shieldText = this.add.text(912, 66, "Shields: 0/3", DODGE_HUD_STYLES.shieldText);
-    this.archetypeText = this.add.text(24, 142, `Archetype: ${this.currentArchetypeName}`, DODGE_HUD_STYLES.objectiveText);
+    this.shieldText = this.add.text(912, theme.spacing[24] + theme.spacing[2], "Shields: 0/3", DODGE_HUD_STYLES.shieldText);
+    this.archetypeText = this.add.text(theme.spacing[6], theme.spacing[24], `Archetype: ${this.currentArchetypeName}`, DODGE_HUD_STYLES.objectiveText);
 
     this.statusText = this.add.text(
       GAME_WIDTH / 2,
-      88,
+      theme.spacing[20],
       "Recovery phases widen the rain. Heat phases compress the fall lanes.",
-      DODGE_HUD_STYLES.statusText
+      { ...DODGE_HUD_STYLES.statusText, wordWrap: { width: theme.spacing[64] + theme.spacing[32] } }
     );
     this.statusText.setOrigin(0.5, 0.5);
     this.statusText.setStroke(HUD_STROKE.color, HUD_STROKE.width);
@@ -819,7 +831,7 @@ export default class DodgeGame extends BaseScene {
     // Phase bar track: rounded rect, left edge at 912, vertical center at 116 (Graphics has no setOrigin)
     const phaseBarHeight = 18;
     const phaseBarX = 912;
-    const phaseBarY = 116;
+    const phaseBarY = theme.spacing[32] + theme.spacing[5];
     this.phaseBarTrack = this.add.graphics();
     this.phaseBarTrack.setPosition(phaseBarX + PHASE_BAR_WIDTH / 2, phaseBarY);
     this.phaseBarTrack.fillStyle(parseInt(theme.colors.semantic.background.panel.replace("#", ""), 16), 0.95);
@@ -828,7 +840,7 @@ export default class DodgeGame extends BaseScene {
     this.phaseBarTrack.strokeRoundedRect(-PHASE_BAR_WIDTH / 2, -phaseBarHeight / 2, PHASE_BAR_WIDTH, phaseBarHeight, 9);
 
     this.phaseBarFill = this.add
-      .rectangle(912, 116, theme.components.hud.phaseBar.minWidth, 12, theme.colors.semantic.game.phaseCyan, 1)
+      .rectangle(phaseBarX, phaseBarY, theme.components.hud.phaseBar.minWidth, 12, theme.colors.semantic.game.phaseCyan, 1)
       .setOrigin(0, 0.5);
 
     this.exitText = this.add.text(
@@ -839,13 +851,13 @@ export default class DodgeGame extends BaseScene {
     );
     this.exitText.setOrigin(0.5, 0.5);
 
-    this.objectiveText = this.add.text(24, 108, "Objectives", DODGE_HUD_STYLES.objectiveText);
+    this.objectiveText = this.add.text(theme.spacing[6], theme.spacing[32], "Objectives", { ...DODGE_HUD_STYLES.objectiveText, lineSpacing: theme.spacing[1], wordWrap: { width: theme.spacing[64] + theme.spacing[32] } });
 
     this.bossTimerText = this.add.text(912, 200, "", DODGE_HUD_STYLES.bossTimerText);
     this.bossTimerText.setVisible(false);
 
     // Heat / intensity indicator (visible during Heat phase or when boss active)
-    this.heatIndicator = this.add.image(1040, 140, "stageIntensityHeat");
+    this.heatIndicator = this.add.image(1040, theme.spacing[64], "stageIntensityHeat");
     this.heatIndicator.setScale(0.2);
     this.heatIndicator.setVisible(false);
     this.heatIndicator.setDepth(theme.zIndex.pickups - 1);

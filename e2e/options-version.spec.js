@@ -53,43 +53,30 @@ test.describe("Options — version string (AGENT-37 / AGENT-50)", () => {
 
     await page.waitForFunction(
       () => {
-        const g = window.__skyfallDev?.game;
-        return g?.scene?.isActive("mainMenuScene");
+        return window.__skyfallDev?.getState?.().currentSceneKey === "mainMenuScene";
       },
       { timeout: PAGE_LOAD_TIMEOUT }
     );
 
     await page.evaluate(() => {
-      window.__skyfallDev?.game?.scene?.start("optionsScene", { returnTo: "mainMenuScene" });
+      window.__skyfallDev?.startScene?.("optionsScene", { returnTo: "mainMenuScene" });
     });
     await page.waitForFunction(
       () => {
-        const g = window.__skyfallDev?.game;
-        return g?.scene?.isActive("optionsScene");
+        return window.__skyfallDev?.getState?.().currentSceneKey === "optionsScene";
       },
       { timeout: 20000 }
     );
 
     const result = await page.evaluate(() => {
       const dev = window.__skyfallDev;
-      if (!dev?.game) {
+      if (!dev?.getState || !dev?.getSceneTexts) {
         return { ok: false, reason: "DEV hook missing (expected under Vite dev)" };
       }
-      const sc = dev.game.scene.getScene("optionsScene");
-      if (!sc?.scene?.isActive()) {
+      if (dev.getState().currentSceneKey !== "optionsScene") {
         return { ok: false, reason: "optionsScene not active" };
       }
-      const texts = [];
-      const walk = (list) => {
-        if (!list) return;
-        list.forEach((obj) => {
-          if (typeof obj.text === "string" && obj.text.length) {
-            texts.push(obj.text);
-          }
-          if (obj.list && obj.list.length) walk(obj.list);
-        });
-      };
-      walk(sc.children?.list);
+      const texts = dev.getSceneTexts("optionsScene");
       const versionLine = texts.find((t) => /^Skyfall v/.test(t));
       const expected = `Skyfall v${dev.GAME_VERSION}`;
       return {

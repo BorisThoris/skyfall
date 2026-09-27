@@ -95,6 +95,11 @@ function initJoystickControl(base, thumb) {
 
   base.addEventListener("pointerup", onPointerRelease);
   base.addEventListener("pointercancel", onPointerRelease);
+  base.addEventListener("lostpointercapture", () => { activePointerId = null; resetThumb(); });
+  window.addEventListener("blur", () => { activePointerId = null; resetThumb(); });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { activePointerId = null; resetThumb(); }
+  });
 }
 
 function initJoystickDrag(container, joystick, dragHandle) {

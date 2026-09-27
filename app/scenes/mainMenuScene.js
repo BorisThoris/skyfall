@@ -1,3 +1,4 @@
+import createMainMenuView from "../ui/mainMenuView";
 import { GAME_CENTER_X, GAME_CENTER_Y, GAME_HEIGHT, GAME_WIDTH, PLAYER_START_Y, theme } from "../config/gameConfig";
 import { SCENE_KEYS } from "../config/sceneKeys";
 import { EXIT_UNLOCK_SCORE } from "../game/runnerContent";
@@ -27,7 +28,9 @@ import { BODY_STYLE, PANEL_TITLE_STYLE } from "../config/sceneStyles";
 
 /** Valve/GMod-style main menu: options panel on the left, visuals (player + bg) on the right. */
 const PANEL_WIDTH = 380;
-const PANEL_PADDING = 32;
+const PANEL_PADDING = theme.spacing[8];
+const SUMMARY_X = PANEL_WIDTH + theme.spacing[16];
+const SUMMARY_WIDTH = theme.spacing[64] + theme.spacing[32];
 const PANEL_ALPHA = 0.94;
 const MENU_PLAYER_X = GAME_WIDTH - 200;
 const MENU_PLAYER_Y = PLAYER_START_Y - 50;
@@ -68,210 +71,74 @@ export default class MainMenuScene extends BaseScene {
     });
     const refreshedMeta = getMetaProgression();
 
-    const { colors, zIndex } = theme;
-    // Left panel (Valve/GMod style)
-    const panel = this.add.graphics();
-    panel.fillStyle(colors.semantic.game.menuPanel, PANEL_ALPHA);
-    panel.fillRect(0, 0, PANEL_WIDTH, GAME_HEIGHT);
-    panel.lineStyle(theme.components.hud.stroke.width, colors.semantic.game.menuAccent, 1);
-    panel.lineBetween(PANEL_WIDTH, 0, PANEL_WIDTH, GAME_HEIGHT);
-    panel.setDepth(zIndex.hud - 3);
-
-    // Title top-left of panel
-    const title = this.add.text(PANEL_PADDING, 72, "SKYFALL", {
-      font: "700 42px Arial",
-      fill: colors.base.white
+    this.menuView = createMainMenuView(this, {
+      contracts: getActiveContracts(), meta: refreshedMeta,
+      daily: getDailyModifierProfile().menuLine,
+      achievements: listAchievementStates().filter(item => item.unlocked).length
     });
-    title.setDepth(zIndex.overlay);
-
-    const menuTagline = this.add.text(PANEL_PADDING, 120, "Survive the drop. Reach the exit.", {
-      font: "700 13px Arial",
-      fill: colors.semantic.text.muted,
-      wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 }
-    });
-    menuTagline.setDepth(zIndex.overlay);
-
-    const dailyLine = this.add.text(PANEL_PADDING, 138, getDailyModifierProfile().menuLine, {
-      font: "700 12px Arial",
-      fill: colors.semantic.text.score,
-      wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 }
-    });
-    dailyLine.setDepth(zIndex.overlay);
-
-    const modes = getModeList();
-    const modeLabel = this.add.text(PANEL_PADDING, 168, "Mode", {
-      font: "700 18px Arial",
-      fill: colors.semantic.text.muted
-    });
-    modeLabel.setDepth(zIndex.overlay);
-
-    modes.forEach((entry, index) => {
-      const modeText = this.add.text(PANEL_PADDING, 194 + index * 24, "", {
-        font: "700 16px Arial",
-        fill: colors.semantic.text.muted
-      });
-      const refresh = () => {
-        const isSelected = this.selectedMode === entry.mode;
-        modeText.setText(`${isSelected ? "▶" : "•"} ${entry.label}`);
-        modeText.setColor(isSelected ? colors.base.white : colors.semantic.text.muted);
-      };
-      refresh();
-      modeText.setDepth(zIndex.overlay);
-      modeText.setInteractive({ useHandCursor: true });
-      modeText.on("pointerdown", () => {
-        this.selectedMode = entry.mode;
-        this.scene.restart({ mode: this.selectedMode });
-      });
-    });
-
-    // Menu options on the left, vertical list
-    const menuYStart = 270;
-    const menuSpacing = 48;
-    const menuItems = [
-      {
-        label: "Play",
-        action: () =>
-          this.scene.start(SCENE_KEYS.game, {
-            mode: this.selectedMode,
-            archetypeId: this.selectedArchetypeId
-          })
-      },
-      {
-        label: "Options",
-        action: () =>
-          this.scene.start(SCENE_KEYS.options, { returnTo: SCENE_KEYS.mainMenu })
-      },
-      {
-        label: "Achievements",
-        action: () =>
-          this.scene.start(SCENE_KEYS.achievements, { returnTo: SCENE_KEYS.mainMenu })
-      },
-      { label: "Credits", action: () => this.scene.start(SCENE_KEYS.credits) },
-      { label: "Progression", action: () => this.scene.start(SCENE_KEYS.meta) },
-      { label: "Quit", action: () => this.quit() }
-    ];
-
-    const menuDefaultFill = colors.semantic.text.status;
-    menuItems.forEach((item, i) => {
-      const y = menuYStart + i * menuSpacing;
-      const text = this.add.text(PANEL_PADDING, y, item.label, {
-        font: "700 28px Arial",
-        fill: menuDefaultFill
-      });
-      text.setDepth(zIndex.overlay);
-      text.setInteractive({ useHandCursor: true });
-      text.on("pointerover", () => {
-        text.setFill(colors.base.white);
-        text.setScale(1.02);
-      });
-      text.on("pointerout", () => {
-        text.setFill(menuDefaultFill);
-        text.setScale(1);
-      });
-      text.on("pointerdown", item.action);
-    });
-
-    const onlineStatus = getOnlineStatus();
-    const unlockedCount = listAchievementStates().filter(item => item.unlocked).length;
-    const bestSubmitted = onlineStatus.leaderboards?.best_score?.score ?? 0;
-    const adapter = onlineStatus.adapter || "local";
-    const adapterLabel =
-      adapter === "local"
-        ? "Off (local-only — scores stay on this device)"
-        : adapter === "steam"
-          ? "Steam"
-          : adapter;
-    this.add.text(
-      PANEL_PADDING,
-      452,
-      `Online: ${adapterLabel} | Queue: ${onlineStatus.queueLength}\nAchievements: ${unlockedCount} | Best submit: ${bestSubmitted}`,
-      {
-        font: "700 11px Arial",
-        fill: colors.semantic.text.objective,
-        wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 }
-      }
-    ).setDepth(zIndex.overlay);
-
-    const archetypeLabel = this.add.text(PANEL_PADDING, 508, "Archetype", {
-      font: "700 18px Arial",
-      fill: colors.semantic.text.muted
-    });
-    archetypeLabel.setDepth(zIndex.overlay);
-
-    const archetypeValue = this.add.text(PANEL_PADDING, 532, "", {
-      font: "700 22px Arial",
-      fill: colors.base.white
-    });
-    archetypeValue.setDepth(zIndex.overlay);
-
-    const archetypeDesc = this.add.text(PANEL_PADDING, 564, "", {
-      font: "700 12px Arial",
-      fill: colors.semantic.text.muted,
-      wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 }
-    });
-    archetypeDesc.setDepth(zIndex.overlay);
-
-    const updateArchetypeText = () => {
-      const selected = ARCHETYPE_LIBRARY.find(entry => entry.id === this.selectedArchetypeId) || ARCHETYPE_LIBRARY[0];
-      archetypeValue.setText(`${selected.name}  (click to change)`);
-      archetypeDesc.setText(selected.description);
-    };
-
-    archetypeValue.setInteractive({ useHandCursor: true });
-    archetypeValue.on("pointerover", () => archetypeValue.setFill(colors.semantic.text.accent));
-    archetypeValue.on("pointerout", () => archetypeValue.setFill(colors.base.white));
-    archetypeValue.on("pointerdown", () => {
-      const currentIndex = ARCHETYPE_LIBRARY.findIndex(entry => entry.id === this.selectedArchetypeId);
-      const nextIndex = (Math.max(currentIndex, 0) + 1) % ARCHETYPE_LIBRARY.length;
-      this.selectedArchetypeId = ARCHETYPE_LIBRARY[nextIndex].id;
-      setSelectedArchetype(this.selectedArchetypeId);
-      updateArchetypeText();
-    });
-    updateArchetypeText();
-
-    const completedContracts = contracts.filter((contract) => contract.completed || contract.claimed).length;
-    const contractPreview = contracts
-      .slice(0, 2)
-      .map((contract) => {
-        const progress = contract.metric === "survivalMs"
-          ? `${Math.floor(contract.progress / 1000)}s/${Math.floor(contract.target / 1000)}s`
-          : `${contract.progress}/${contract.target}`;
-        return `${contract.title} ${progress}`;
-      })
-      .join("\n");
-    const contractOverflow = contracts.length > 2 ? `\n+${contracts.length - 2} more contract(s)` : "";
-    this.add.text(PANEL_PADDING, 626, `Contracts: ${completedContracts}/${contracts.length} complete\n${contractPreview}${contractOverflow}`, {
-      font: "700 11px Arial",
-      fill: colors.semantic.text.objective,
-      wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 }
-    }).setDepth(zIndex.overlay);
-
-    const claimSummary = contractClaims.length
-      ? `Claimed: ${contractClaims.map((entry) => `+${entry.reward.currency}c/+${entry.reward.fragments}f ${entry.title}`).join(" | ")}`
-      : `Currency: ${refreshedMeta.currency} | Fragments: ${refreshedMeta.unlockFragments}`;
-    this.add.text(PANEL_PADDING, 678, claimSummary, {
-      font: "700 11px Arial",
-      fill: contractClaims.length ? colors.semantic.text.success : colors.semantic.text.score,
-      wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 }
-    }).setDepth(zIndex.overlay);
-
-    // Bottom-left: version and tagline (n-ish, left bottom left)
-    const tagline = this.add.text(
-      PANEL_PADDING,
-      GAME_HEIGHT - 52,
-      `Mode: ${this.selectedMode} | Reach ${EXIT_UNLOCK_SCORE} to unlock the exit.`,
-      { font: "700 12px Arial", fill: colors.semantic.text.muted, wordWrap: { width: PANEL_WIDTH - PANEL_PADDING * 2 } }
-    );
-    tagline.setDepth(zIndex.overlay);
-
-    const versionText = this.add.text(PANEL_PADDING, GAME_HEIGHT - 28, `v${GAME_VERSION}`, {
-      font: "700 16px Arial",
-      fill: colors.semantic.text.muted
-    });
-    versionText.setDepth(zIndex.overlay);
 
     if (shouldShowTutorial()) {
       this._showTutorialPrompt();
+      this.menuView.element.hidden = true;
+    }
+
+    this._keyboardStartHandler = (event) => {
+      if (this.menuView.element.contains(event.target) && /BUTTON|SELECT/.test(event.target.tagName)) return;
+      this._handleKeyboardStart();
+    };
+    this._keyboardSkipHandler = () => {
+      if (this._tutorialPromptObjects) {
+        this._skipTutorialPrompt();
+      }
+    };
+    this.input.keyboard.on("keydown-SPACE", this._keyboardStartHandler);
+    this.input.keyboard.on("keydown-ENTER", this._keyboardStartHandler);
+    this.input.keyboard.on("keydown-ESC", this._keyboardSkipHandler);
+    this.events.once("shutdown", () => {
+      this.input.keyboard.off("keydown-SPACE", this._keyboardStartHandler);
+      this.input.keyboard.off("keydown-ENTER", this._keyboardStartHandler);
+      this.input.keyboard.off("keydown-ESC", this._keyboardSkipHandler);
+      this._keyboardStartHandler = null;
+      this._keyboardSkipHandler = null;
+    });
+  }
+
+  _getSelectedRunData() {
+    return {
+      mode: this.selectedMode,
+      archetypeId: this.selectedArchetypeId
+    };
+  }
+
+  _startSelectedRun(extraData = {}) {
+    this.scene.start(SCENE_KEYS.game, {
+      ...this._getSelectedRunData(),
+      ...extraData
+    });
+  }
+
+  _acceptTutorialPrompt() {
+    this._destroyTutorialPrompt();
+    this.scene.start(SCENE_KEYS.tutorial, {
+      returnTo: SCENE_KEYS.game,
+      returnData: {
+        ...this._getSelectedRunData(),
+        skipTutorialGate: true
+      }
+    });
+  }
+
+  _skipTutorialPrompt() {
+    setTutorialOptOut(true);
+    this._destroyTutorialPrompt();
+    this._startSelectedRun({ skipTutorialGate: true });
+  }
+
+  _handleKeyboardStart() {
+    if (this._tutorialPromptObjects) {
+      this._acceptTutorialPrompt();
+    } else {
+      this._startSelectedRun();
     }
   }
 
@@ -296,7 +163,7 @@ export default class MainMenuScene extends BaseScene {
     panel.strokeRect(cx - panelW / 2, cy - panelH / 2, panelW, panelH);
     panel.setDepth(modalDepth + 1);
 
-    const title = this.add.text(cx, cy - 52, "Quick tutorial?", {
+    const title = this.add.text(cx, cy - 58, "Quick tutorial?", {
       font: PANEL_TITLE_STYLE.font,
       fill: PANEL_TITLE_STYLE.fill,
       align: "center"
@@ -305,7 +172,15 @@ export default class MainMenuScene extends BaseScene {
     title.setDepth(modalDepth + 2);
 
     const bodyStyle = { font: BODY_STYLE.font, fill: colors.semantic.text.muted, align: "center" };
-    const yesText = this.add.text(cx - 70, cy + 20, "Yes", {
+    const hint = this.add.text(cx, cy - 14, "Enter / Space: Yes    Esc: Skip", {
+      ...bodyStyle,
+      font: "700 16px Arial",
+      fill: colors.semantic.text.score
+    });
+    hint.setOrigin(0.5, 0.5);
+    hint.setDepth(modalDepth + 2);
+
+    const yesText = this.add.text(cx - 70, cy + 32, "Yes", {
       ...bodyStyle,
       font: "700 28px Arial",
       fill: colors.semantic.text.success
@@ -315,12 +190,9 @@ export default class MainMenuScene extends BaseScene {
     yesText.setInteractive({ useHandCursor: true });
     yesText.on("pointerover", () => { yesText.setScale(1.08); });
     yesText.on("pointerout", () => { yesText.setScale(1); });
-    yesText.on("pointerdown", () => {
-      this._destroyTutorialPrompt();
-      this.scene.start(SCENE_KEYS.tutorial, { returnTo: SCENE_KEYS.mainMenu });
-    });
+    yesText.on("pointerdown", () => this._acceptTutorialPrompt());
 
-    const skipText = this.add.text(cx + 70, cy + 20, "Skip", {
+    const skipText = this.add.text(cx + 70, cy + 32, "Skip", {
       ...bodyStyle,
       font: "700 28px Arial",
       fill: colors.semantic.text.warm
@@ -330,15 +202,13 @@ export default class MainMenuScene extends BaseScene {
     skipText.setInteractive({ useHandCursor: true });
     skipText.on("pointerover", () => { skipText.setScale(1.08); });
     skipText.on("pointerout", () => { skipText.setScale(1); });
-    skipText.on("pointerdown", () => {
-      setTutorialOptOut(true);
-      this._destroyTutorialPrompt();
-    });
+    skipText.on("pointerdown", () => this._skipTutorialPrompt());
 
-    this._tutorialPromptObjects = [backdrop, panel, title, yesText, skipText];
+    this._tutorialPromptObjects = [backdrop, panel, title, hint, yesText, skipText];
   }
 
   _destroyTutorialPrompt() {
+    if (this.menuView) this.menuView.element.hidden = false;
     if (!this._tutorialPromptObjects) return;
     this._tutorialPromptObjects.forEach((obj) => obj.destroy());
     this._tutorialPromptObjects = null;
@@ -402,4 +272,5 @@ export default class MainMenuScene extends BaseScene {
       window.close();
     }
   }
+
 }

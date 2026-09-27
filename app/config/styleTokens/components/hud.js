@@ -4,26 +4,26 @@
  */
 const hud = {
   scoreText: {
-    fontSize: "44px",
+    fontSize: "36px",
     strokeWidth: 3
   },
   highestScore: {
-    fontSize: "24px"
+    fontSize: "18px"
   },
   phaseText: {
-    fontSize: "32px"
+    fontSize: "22px"
   },
   shieldText: {
-    fontSize: "24px"
+    fontSize: "18px"
   },
   statusText: {
-    fontSize: "24px"
+    fontSize: "18px"
   },
   objectiveText: {
-    fontSize: "20px"
+    fontSize: "16px"
   },
   bossTimerText: {
-    fontSize: "20px"
+    fontSize: "16px"
   },
   phaseBar: {
     width: 320,

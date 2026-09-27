@@ -67,7 +67,107 @@ const config = {
 
 const game = new Phaser.Game(config);
 if (import.meta.env.DEV) {
-  window.__skyfallDev = { game, GAME_VERSION };
+  const transitionLog = [];
+  const allowedSceneKeys = new Set(Object.values(SCENE_KEYS));
+  const getActiveSceneKeys = () =>
+    (game.scene?.scenes || [])
+      .filter((scene) => game.scene.isActive(scene.sys.settings.key))
+      .map((scene) => scene.sys.settings.key);
+  const getCurrentSceneKey = () => getActiveSceneKeys().at(-1) || null;
+  const originalSceneStart = game.scene.start.bind(game.scene);
+  game.scene.start = (sceneKey, ...args) => {
+    transitionLog.push({
+      from: getCurrentSceneKey(),
+      to: sceneKey,
+      at: Date.now()
+    });
+    if (transitionLog.length > 12) {
+      transitionLog.shift();
+    }
+    return originalSceneStart(sceneKey, ...args);
+  };
+  const getSceneSnapshot = () => {
+    const currentSceneKey = getCurrentSceneKey();
+    const menuScene = game.scene.getScene(SCENE_KEYS.mainMenu);
+    const gameScene = game.scene.getScene(SCENE_KEYS.game);
+    const settings = getSettings();
+    return {
+      version: GAME_VERSION,
+      currentSceneKey,
+      activeSceneKeys: getActiveSceneKeys(),
+      editorAvailable: Boolean(game.scene.getScene(SCENE_KEYS.editor)),
+      selectedMode: gameScene?.mode || menuScene?.selectedMode || null,
+      selectedArchetypeId: gameScene?.selectedArchetypeId || menuScene?.selectedArchetypeId || null,
+      options: {
+        musicVolume: settings.musicVolume,
+        sfxVolume: settings.sfxVolume,
+        screenShakeIntensity: settings.screenShakeIntensity,
+        flashIntensity: settings.flashIntensity,
+        colorBlindPaletteMode: settings.colorBlindPaletteMode,
+        reduceMotionSafeMode: settings.reduceMotionSafeMode,
+        allowAnonymousAnalytics: settings.allowAnonymousAnalytics
+      },
+      run: {
+        score: gameScene?.getScore ? gameScene.getScore() : 0,
+        runTimeMs: gameScene?.runTimeMs || 0,
+        gameOverState: gameScene?.gameOverState ?? false,
+        gameOverVisible: Boolean(gameScene?.gameOverPanel?.visible && gameScene?.gameOverText?.visible),
+        replayVisible: Boolean(gameScene?.replayButton?.visible || gameScene?.playAgainText?.visible),
+        paused: Boolean(gameScene?.paused),
+        challengeVisible: Boolean(gameScene?.activeChallenge),
+        perkDraftVisible: Boolean(gameScene?.pendingPerkChoices)
+      },
+      lastTransition: transitionLog.at(-1) || null
+    };
+  };
+  const getSceneTexts = (sceneKey = getCurrentSceneKey()) => {
+    const scene = sceneKey ? game.scene.getScene(sceneKey) : null;
+    const texts = [];
+    const walk = (list) => {
+      if (!Array.isArray(list)) return;
+      list.forEach((obj) => {
+        if (typeof obj.text === "string" && obj.text.length) {
+          texts.push(obj.text);
+        }
+        if (obj.list) {
+          walk(obj.list);
+        }
+      });
+    };
+    walk(scene?.children?.list);
+    return texts;
+  };
+  const startScene = (sceneKey, data) => {
+    if (!allowedSceneKeys.has(sceneKey)) {
+      throw new Error(`Unknown Skyfall scene: ${sceneKey}`);
+    }
+    if (sceneKey === SCENE_KEYS.editor && !game.scene.getScene(SCENE_KEYS.editor)) {
+      throw new Error("Editor scene is not available in this build");
+    }
+    game.scene.start(sceneKey, data);
+  };
+  const forceGameOver = () => {
+    const scene = game.scene.getScene(SCENE_KEYS.game);
+    if (!scene?.endRun || !game.scene.isActive(SCENE_KEYS.game)) {
+      throw new Error("Game scene is not active");
+    }
+    scene.endRun();
+  };
+  const replay = () => {
+    const scene = game.scene.getScene(SCENE_KEYS.game);
+    if (!scene?.resetRun || !game.scene.isActive(SCENE_KEYS.game)) {
+      throw new Error("Game scene is not active");
+    }
+    scene.resetRun();
+  };
+  window.__skyfallDev = {
+    GAME_VERSION,
+    getState: getSceneSnapshot,
+    getSceneTexts,
+    startScene,
+    forceGameOver,
+    replay
+  };
 }
 initMobileControls();
 if (!isMobile()) document.body.classList.add("desktop-build");
