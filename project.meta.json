@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T18:12:03.691Z",
+  "generatedAt": "2026-09-27T20:40:20.692Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -102,46 +102,46 @@
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 52388,
+        "bytes": 52442,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-27T18:10:49.286Z"
+        "capturedAt": "2026-09-27T20:39:06.281Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 51036,
+        "bytes": 49209,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T18:11:07.907Z"
+        "capturedAt": "2026-09-27T20:39:24.920Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 44151,
+        "bytes": 44048,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T18:11:44.939Z"
+        "capturedAt": "2026-09-27T20:40:01.951Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 25421,
+        "bytes": 25131,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-27T18:11:26.334Z"
+        "capturedAt": "2026-09-27T20:39:43.343Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 38802,
+        "bytes": 39159,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-27T18:12:03.532Z"
+        "capturedAt": "2026-09-27T20:40:20.534Z"
       }
     ],
     "trailers": [
@@ -188,9 +188,9 @@
     "devDependencyCount": 4
   },
   "metrics": {
-    "sourceFiles": 100,
-    "testFiles": 22,
-    "sourceLines": 16414,
+    "sourceFiles": 103,
+    "testFiles": 23,
+    "sourceLines": 16672,
     "largestDirectories": [
       {
         "directory": "app",
@@ -202,7 +202,7 @@
       },
       {
         "directory": "scripts",
-        "files": 12
+        "files": 14
       },
       {
         "directory": "e2e",
@@ -229,10 +229,10 @@
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
     "branch": "master",
-    "head": "8b36147d",
-    "lastCommitDate": "2026-09-27T20:47:45+03:00",
-    "lastCommitSubject": "Publish verified advancing gameplay capture",
-    "commitCount": 166,
+    "head": "d5cd43f4",
+    "lastCommitDate": "2026-09-27T23:29:46+03:00",
+    "lastCommitSubject": "Serve published trailers with real HTTP byte ranges",
+    "commitCount": 168,
     "remote": "https://github.com/BorisThoris/skyfall"
   },
   "readme": {
