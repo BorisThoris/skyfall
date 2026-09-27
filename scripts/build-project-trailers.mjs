@@ -7,6 +7,7 @@
 // Usage:
 //   npm run trailers                  # rebuild whatever is stale, publish, record
 //   npm run trailers -- --check       # non-zero exit if anything is stale or unpublished
+//   npm run trailers -- --check --buildable-only   # ...ignoring items this machine cannot render
 //   npm run trailers -- --force       # rebuild everything
 //   npm run trailers -- --only=<id>   # one item
 //   npm run trailers -- --list        # what is configured and its state
@@ -90,6 +91,9 @@ const checkOnly = args.includes('--check');
 const force = args.includes('--force');
 const listOnly = args.includes('--list');
 const noBuild = args.includes('--no-build');
+// --check --buildable-only: a stale item whose toolchain (Blender, NVENC) is
+// not on this machine is a warning, not a failure - it is rebuilt where it is.
+const buildableOnly = args.includes('--buildable-only');
 const onlyArg = args.find((argument) => argument.startsWith('--only='));
 const only = onlyArg ? new Set(onlyArg.slice('--only='.length).split(',').map((value) => value.trim())) : null;
 
@@ -129,7 +133,9 @@ for (const item of items) {
   }
 
   if (checkOnly) {
-    if (state.stale) stale.push(item.id + ' (' + state.reason + ')');
+    if (state.stale && buildableOnly && checkRequirements(item.requires ?? []).missing.length > 0) {
+      console.warn('[trailers] ' + item.id + ': stale (' + state.reason + ') but needs ' + checkRequirements(item.requires ?? []).missing.join(', ') + ' - rebuilt where the toolchain is.');
+    } else if (state.stale) stale.push(item.id + ' (' + state.reason + ')');
     else console.log('[trailers] ' + item.id + ': current' + (previous?.builtAt ? ' (built ' + previous.builtAt + ')' : ''));
     continue;
   }

@@ -139,7 +139,9 @@ test('the metadata carries every published trailer and artwork', { skip: items.l
 test('the link-preview card, icons and rendered media are current', () => {
   for (const [label, script] of [['social', 'generate-social-preview.mjs'], ['icons', 'generate-app-icons.mjs'], ['trailers', 'build-project-trailers.mjs']]) {
     if (label === 'trailers' && items.length === 0) continue;
-    const run = spawnSync(process.execPath, [path.join(scriptDir, script), '--check'], { cwd: repoRoot, encoding: 'utf8' });
+    // A rendered item that needs Blender or a GPU is rebuilt on the PC's CI chain; here only items this machine could render are held to being current.
+    const checkArgs = label === 'trailers' ? ['--check', '--buildable-only'] : ['--check'];
+    const run = spawnSync(process.execPath, [path.join(scriptDir, script), ...checkArgs], { cwd: repoRoot, encoding: 'utf8' });
     assert.equal(run.status, 0, label + ' --check: ' + (run.stderr || run.stdout).trim().split('\n').slice(-2).join(' '));
   }
 });
