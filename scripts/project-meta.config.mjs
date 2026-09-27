@@ -36,7 +36,7 @@ export default {
     "showcaseTier": "more"
   },
   "capture": {
-    "browserArgs": ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+    "browserArgs": ["--disable-webgl"],
     "route": "/",
     "readySelector": ".sky-menu",
     "readyState": "attached",
@@ -103,7 +103,7 @@ export default {
         "music": "project-media/music/tour.m4a",
         "posterAt": 0.5,
         "recipe": {
-        "browserArgs": ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+        "browserArgs": ["--disable-webgl"],
         "route": "/",
         "viewport": {
                 "width": 1280,
