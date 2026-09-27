@@ -5,14 +5,14 @@
       "id": "tour",
       "title": "Skyfall: the menu and the drop",
       "kind": "capture",
-      "inputsHash": "6af503709179d27917ad3755286031f57f00ee6f30c9b0c7bf5136ddfaca261c",
-      "builtAt": "2026-09-27T13:04:16.677Z",
+      "inputsHash": "153daed2483308203e61370d826630aecc2ca0fa6650a391a826d1ffff217909",
+      "builtAt": "2026-09-27T17:30:32.146Z",
       "source": "project-media/.captures/tour.webm",
       "file": "public/trailers/tour.mp4",
       "poster": "public/trailers/tour.jpg",
       "urlPath": "/trailers/tour.mp4",
       "posterUrlPath": "/trailers/tour.jpg",
-      "bytes": 627226,
+      "bytes": 605290,
       "width": 1280,
       "height": 720,
       "duration": 20,
@@ -20,11 +20,11 @@
       "orientation": "landscape",
       "music": "project-media/music/tour.m4a",
       "stats": {
-        "mean": 22,
-        "std": 13,
-        "dark": 0.234,
+        "mean": 24,
+        "std": 14,
+        "dark": 0,
         "light": 0,
-        "colours": 15
+        "colours": 16
       }
     }
   ]

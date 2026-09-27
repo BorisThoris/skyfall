@@ -1,13 +1,37 @@
 {
   "slug": "skyfall",
-  "capturedAt": "2026-09-27T14:42:50.795Z",
-  "source": "deployment",
-  "url": "https://skyfall-git.pages.dev/",
+  "capturedAt": "2026-09-27T17:33:43.086Z",
+  "source": "local",
+  "url": "http://127.0.0.1:4513/",
   "recipe": {
+    "browserArgs": [
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader"
+    ],
     "route": "/",
-    "readySelector": "canvas",
-    "readyState": "visible",
-    "waitAfterReadyMs": 3500
+    "readySelector": ".sky-menu",
+    "readyState": "attached",
+    "actions": [
+      {
+        "type": "wait",
+        "ms": 800
+      },
+      {
+        "type": "press",
+        "key": "Space",
+        "label": "Open the first-run controls guide"
+      },
+      {
+        "type": "wait",
+        "ms": 350
+      },
+      {
+        "type": "press",
+        "key": "Enter",
+        "label": "Start the guided run"
+      }
+    ],
+    "waitAfterReadyMs": 5000
   },
   "profiles": [
     {
@@ -15,14 +39,14 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 67956,
+      "bytes": 61502,
       "status": "captured",
       "stats": {
-        "mean": 22,
-        "std": 13,
-        "dark": 0.246,
+        "mean": 24,
+        "std": 17,
+        "dark": 0,
         "light": 0,
-        "colours": 18
+        "colours": 22
       }
     },
     {
@@ -30,14 +54,14 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 66310,
+      "bytes": 58086,
       "status": "captured",
       "stats": {
-        "mean": 22,
-        "std": 12,
-        "dark": 0.177,
+        "mean": 23,
+        "std": 15,
+        "dark": 0.08,
         "light": 0,
-        "colours": 18
+        "colours": 22
       }
     },
     {
@@ -45,14 +69,14 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 15851,
+      "bytes": 27257,
       "status": "captured",
       "stats": {
-        "mean": 13,
-        "std": 14,
-        "dark": 0.723,
+        "mean": 15,
+        "std": 19,
+        "dark": 0.688,
         "light": 0,
-        "colours": 26
+        "colours": 39
       }
     },
     {
@@ -60,14 +84,14 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 58196,
+      "bytes": 51017,
       "status": "captured",
       "stats": {
-        "mean": 22,
-        "std": 12,
-        "dark": 0.177,
+        "mean": 23,
+        "std": 15,
+        "dark": 0.08,
         "light": 0,
-        "colours": 18
+        "colours": 22
       }
     },
     {
@@ -75,14 +99,14 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 48776,
+      "bytes": 44644,
       "status": "captured",
       "stats": {
-        "mean": 21,
-        "std": 12,
-        "dark": 0.295,
+        "mean": 22,
+        "std": 13,
+        "dark": 0.08,
         "light": 0,
-        "colours": 14
+        "colours": 15
       }
     }
   ]

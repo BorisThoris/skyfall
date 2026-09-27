@@ -1,7 +1,7 @@
 {
   "name": "Skyfall",
   "short_name": "Skyfall",
-  "description": "A Phaser 3 endless dodger: survive escalating waves as the heat rises, break boss encounters, draft perks between runs, and chase daily contracts, achievements and meta progression, with motion, flash and control options for accessibility. Vite in the browser, Electron on the desktop.",
+  "description": "Survive the drop and reach the exit in Classic, Boss Rush or Draft. Keep the original skeleton character and procedural arena, choose a loadout, chase daily contracts, and spend earned rewards. Responsive menus and readable touch run controls complement the keyboard game.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

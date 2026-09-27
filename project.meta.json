@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T14:42:50.906Z",
+  "generatedAt": "2026-09-27T17:33:44.244Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -10,7 +10,7 @@
     "version": "1.0.0",
     "title": "Skyfall",
     "subtitle": "An endless dodger with heat, bosses and perk drafts",
-    "description": "A Phaser 3 endless dodger: survive escalating waves as the heat rises, break boss encounters, draft perks between runs, and chase daily contracts, achievements and meta progression, with motion, flash and control options for accessibility. Vite in the browser, Electron on the desktop.",
+    "description": "Survive the drop and reach the exit in Classic, Boss Rush or Draft. Keep the original skeleton character and procedural arena, choose a loadout, chase daily contracts, and spend earned rewards. Responsive menus and readable touch run controls complement the keyboard game.",
     "tags": [
       "Game",
       "Phaser",
@@ -24,15 +24,15 @@
   },
   "links": {
     "deploymentUrl": "https://skyfall-git.pages.dev/",
-    "localUrl": "http://127.0.0.1:4104/",
+    "localUrl": "http://127.0.0.1:4513/",
     "repository": "https://github.com/BorisThoris/skyfall"
   },
   "runtime": {
     "packageManager": "npm",
     "buildCommand": "npm run build",
     "buildOutput": "dist",
-    "runCommand": "npm run dev -- --host 127.0.0.1 --port 4104",
-    "devPort": 4104,
+    "runCommand": "node scripts/serve-demo.cjs dist 4513",
+    "devPort": 4513,
     "scripts": [
       "test",
       "test:e2e",
@@ -65,60 +65,84 @@
     ]
   },
   "capture": {
+    "browserArgs": [
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader"
+    ],
     "route": "/",
-    "readySelector": "canvas",
-    "readyState": "visible",
-    "waitAfterReadyMs": 3500
+    "readySelector": ".sky-menu",
+    "readyState": "attached",
+    "actions": [
+      {
+        "type": "wait",
+        "ms": 800
+      },
+      {
+        "type": "press",
+        "key": "Space",
+        "label": "Open the first-run controls guide"
+      },
+      {
+        "type": "wait",
+        "ms": 350
+      },
+      {
+        "type": "press",
+        "key": "Enter",
+        "label": "Start the guided run"
+      }
+    ],
+    "waitAfterReadyMs": 5000
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/skyfall/skyfall/project-media",
+    "directory": "C:/Users/Gaming PC/Documents/Codex/2026-09-27/new-chat/work/game-releases/skyfall/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 67956,
+        "bytes": 61502,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-27T14:42:32.310Z"
+        "capturedAt": "2026-09-27T17:31:42.685Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 66310,
+        "bytes": 58086,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T14:42:36.854Z"
+        "capturedAt": "2026-09-27T17:32:13.543Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 58196,
+        "bytes": 51017,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T14:42:45.911Z"
+        "capturedAt": "2026-09-27T17:33:05.260Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 15851,
+        "bytes": 27257,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-27T14:42:41.427Z"
+        "capturedAt": "2026-09-27T17:32:38.957Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 48776,
+        "bytes": 44644,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-27T14:42:50.763Z"
+        "capturedAt": "2026-09-27T17:33:34.009Z"
       }
     ],
     "trailers": [
@@ -128,12 +152,12 @@
         "url": "https://skyfall-git.pages.dev/trailers/tour.mp4",
         "poster": "https://skyfall-git.pages.dev/trailers/tour.jpg",
         "file": "public/trailers/tour.mp4",
-        "bytes": 627226,
+        "bytes": 605290,
         "width": 1280,
         "height": 720,
         "duration": 20,
         "orientation": "landscape",
-        "builtAt": "2026-09-27T13:04:16.677Z"
+        "builtAt": "2026-09-27T17:30:32.146Z"
       }
     ]
   },
@@ -165,13 +189,13 @@
     "devDependencyCount": 4
   },
   "metrics": {
-    "sourceFiles": 96,
+    "sourceFiles": 100,
     "testFiles": 22,
-    "sourceLines": 16144,
+    "sourceLines": 16412,
     "largestDirectories": [
       {
         "directory": "app",
-        "files": 58
+        "files": 61
       },
       {
         "directory": "test",
@@ -179,7 +203,7 @@
       },
       {
         "directory": "scripts",
-        "files": 11
+        "files": 12
       },
       {
         "directory": "e2e",
@@ -205,12 +229,12 @@
   },
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
-    "branch": "master",
-    "head": "aca583cf",
-    "lastCommitDate": "2026-09-27T17:32:14+03:00",
-    "lastCommitSubject": "Update the metadata toolkit scripts: trailers step, refresh --commit, capture.skip",
-    "commitCount": 160,
-    "remote": "https://github.com/BorisThoris/skyfall"
+    "branch": "codex/product-polish-release",
+    "head": "504c0547",
+    "lastCommitDate": "2026-09-27T20:30:12+03:00",
+    "lastCommitSubject": "Refine original Skyfall menu and touch run controls",
+    "commitCount": 162,
+    "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {
     "file": "README.md",
