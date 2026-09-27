@@ -455,12 +455,14 @@ async function publishCapture(item) {
     process.exit(1);
   }
   const duration = Math.max(1, (recipe.durationMs ?? 20000) / 1000);
-  encodeCapture(master, target, { music, duration, crf: item.crf ?? 23, maxHeight: item.maxHeight ?? 1080 });
+  // Browser video begins before navigation/setup; publish the actual action window.
+  const startSeconds = Math.max(0, probe(master).duration - duration);
+  encodeCapture(master, target, { music, duration, startSeconds, crf: item.crf ?? 23, maxHeight: item.maxHeight ?? 1080 });
   let bytes = fs.statSync(target).size;
   if (bytes > maxBytes) {
     const kbps = Math.max(600, Math.floor(((maxBytes * 8 * 0.94) / duration - 128000) / 1000));
     console.log('[trailers] ' + item.id + ': ' + formatBytes(bytes) + ' exceeds the cap, re-encoding at ' + kbps + ' kbps');
-    encodeCapture(master, target, { music, duration, kbps, maxHeight: item.maxHeight ?? 1080 });
+    encodeCapture(master, target, { music, duration, startSeconds, kbps, maxHeight: item.maxHeight ?? 1080 });
     bytes = fs.statSync(target).size;
   }
   const published = probe(target);
@@ -498,7 +500,7 @@ function encodeCapture(source, target, options) {
       '-map', '[v]', '-map', '[a]', '-c:a', 'aac', '-b:a', '128k', '-ac', '2']
     : ['-vf', scale + ',fps=30', '-an'];
   ffmpeg([
-    '-y', '-loglevel', 'error', '-i', source, ...audio,
+    '-y', '-loglevel', 'error', '-ss', (options.startSeconds ?? 0).toFixed(3), '-i', source, ...audio,
     '-t', options.duration.toFixed(2),
     '-c:v', 'libx264', '-preset', 'slow', '-profile:v', 'high', '-pix_fmt', 'yuv420p', ...rate,
     '-movflags', '+faststart', target

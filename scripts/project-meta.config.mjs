@@ -60,7 +60,7 @@ export default {
             "label": "Start the guided run"
         }
     ],
-    "waitAfterReadyMs": 5000
+    "waitAfterReadyMs": 15000
 },
   "scores": {
     "priorityScore": 76,
