@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const root = path.resolve(process.argv[2] ?? 'dist');
+const files = await fs.readdir(root, { recursive: true });
+const include = files.filter(file => file.endsWith('.mp4')).map(file => '/' + file.replaceAll('\\', '/')).sort();
+const sizes = Object.fromEntries(await Promise.all(include.map(async file => [file, (await fs.stat(path.join(root, file))).size])));
+for (const [file, size] of Object.entries(sizes)) if (size > 25 * 1024 * 1024) throw new Error(`Video exceeds the 25 MiB delivery limit: ${file}`);
+const worker = await fs.readFile(new URL('../public/_worker.js', import.meta.url), 'utf8');
+await fs.writeFile(path.join(root, '_worker.js'), worker.replace('const assetSizes = {};', `const assetSizes = ${JSON.stringify(sizes)};`));
+if (include.length > 100) throw new Error('Pages supports at most 100 media routing rules; group paths before adding more clips.');
+await fs.writeFile(path.join(root, '_routes.json'), JSON.stringify({ version: 1, include, exclude: [] }, null, 2) + '\n');
+console.log(`Video byte-range delivery enabled for ${include.length} MP4 files.`);

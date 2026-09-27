@@ -16,7 +16,7 @@
     "agents:wave05:plan": "./scripts/agents/launch_task_agents.sh --tasks-file tasks/launch/wave-05-save-platform-online.md --dry-run",
     "dev": "vite",
     "dev:3000": "vite --port 3000",
-    "build": "vite build",
+    "build": "vite build && node scripts/build-media-delivery.mjs dist",
     "preview": "vite preview",
     "electron:dev": "electron .",
     "electron:build": "vite build && electron-builder",
@@ -31,7 +31,7 @@
     "meta:refresh": "node scripts/refresh-project-meta.mjs",
     "trailers": "node scripts/build-project-trailers.mjs",
     "trailers:check": "node scripts/build-project-trailers.mjs --check",
-    "test:media": "node --test scripts/project-media.test.mjs",
+    "test:media": "node --test scripts/project-media.test.mjs scripts/media-delivery.test.mjs",
     "test:media:e2e": "node scripts/project-media.e2e.mjs"
   },
   "author": "",
