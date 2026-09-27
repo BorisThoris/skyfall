@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T17:33:44.244Z",
+  "generatedAt": "2026-09-27T17:47:14.588Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "skyfall",
@@ -66,8 +66,7 @@
   },
   "capture": {
     "browserArgs": [
-      "--use-angle=swiftshader",
-      "--enable-unsafe-swiftshader"
+      "--disable-webgl"
     ],
     "route": "/",
     "readySelector": ".sky-menu",
@@ -92,7 +91,7 @@
         "label": "Start the guided run"
       }
     ],
-    "waitAfterReadyMs": 5000
+    "waitAfterReadyMs": 15000
   },
   "media": {
     "source": "repo-local",
@@ -103,46 +102,46 @@
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 61502,
+        "bytes": 51618,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-27T17:31:42.685Z"
+        "capturedAt": "2026-09-27T17:45:54.361Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 58086,
+        "bytes": 49174,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T17:32:13.543Z"
+        "capturedAt": "2026-09-27T17:46:13.947Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 51017,
+        "bytes": 43255,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T17:33:05.260Z"
+        "capturedAt": "2026-09-27T17:46:51.900Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 27257,
+        "bytes": 25476,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-27T17:32:38.957Z"
+        "capturedAt": "2026-09-27T17:46:32.725Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 44644,
+        "bytes": 38962,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-27T17:33:34.009Z"
+        "capturedAt": "2026-09-27T17:47:11.004Z"
       }
     ],
     "trailers": [
@@ -152,12 +151,12 @@
         "url": "https://skyfall-git.pages.dev/trailers/tour.mp4",
         "poster": "https://skyfall-git.pages.dev/trailers/tour.jpg",
         "file": "public/trailers/tour.mp4",
-        "bytes": 605290,
+        "bytes": 579282,
         "width": 1280,
         "height": 720,
         "duration": 20,
         "orientation": "landscape",
-        "builtAt": "2026-09-27T17:30:32.146Z"
+        "builtAt": "2026-09-27T17:44:20.130Z"
       }
     ]
   },
@@ -191,7 +190,7 @@
   "metrics": {
     "sourceFiles": 100,
     "testFiles": 22,
-    "sourceLines": 16412,
+    "sourceLines": 16414,
     "largestDirectories": [
       {
         "directory": "app",
@@ -230,10 +229,10 @@
   "analysisNotes": "Current canonical Phaser arcade game with Vite build, Electron packaging, tests, and a strong immediate gameplay demo.",
   "git": {
     "branch": "codex/product-polish-release",
-    "head": "504c0547",
-    "lastCommitDate": "2026-09-27T20:30:12+03:00",
-    "lastCommitSubject": "Refine original Skyfall menu and touch run controls",
-    "commitCount": 162,
+    "head": "60488202",
+    "lastCommitDate": "2026-09-27T20:43:40+03:00",
+    "lastCommitSubject": "Trim browser setup from recorded gameplay trailers",
+    "commitCount": 165,
     "remote": "https://github.com/BorisThoris/skyfall.git"
   },
   "readme": {

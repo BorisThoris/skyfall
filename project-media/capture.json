@@ -1,12 +1,11 @@
 {
   "slug": "skyfall",
-  "capturedAt": "2026-09-27T17:33:43.086Z",
+  "capturedAt": "2026-09-27T17:47:13.825Z",
   "source": "local",
   "url": "http://127.0.0.1:4513/",
   "recipe": {
     "browserArgs": [
-      "--use-angle=swiftshader",
-      "--enable-unsafe-swiftshader"
+      "--disable-webgl"
     ],
     "route": "/",
     "readySelector": ".sky-menu",
@@ -31,7 +30,7 @@
         "label": "Start the guided run"
       }
     ],
-    "waitAfterReadyMs": 5000
+    "waitAfterReadyMs": 15000
   },
   "profiles": [
     {
@@ -39,14 +38,14 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 61502,
+      "bytes": 51618,
       "status": "captured",
       "stats": {
-        "mean": 24,
-        "std": 17,
+        "mean": 25,
+        "std": 14,
         "dark": 0,
         "light": 0,
-        "colours": 22
+        "colours": 19
       }
     },
     {
@@ -54,14 +53,14 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 58086,
+      "bytes": 49174,
       "status": "captured",
       "stats": {
         "mean": 23,
-        "std": 15,
-        "dark": 0.08,
+        "std": 13,
+        "dark": 0.081,
         "light": 0,
-        "colours": 22
+        "colours": 16
       }
     },
     {
@@ -69,14 +68,14 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 27257,
+      "bytes": 25476,
       "status": "captured",
       "stats": {
         "mean": 15,
-        "std": 19,
-        "dark": 0.688,
+        "std": 18,
+        "dark": 0.69,
         "light": 0,
-        "colours": 39
+        "colours": 40
       }
     },
     {
@@ -84,14 +83,14 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 51017,
+      "bytes": 43255,
       "status": "captured",
       "stats": {
         "mean": 23,
-        "std": 15,
-        "dark": 0.08,
+        "std": 13,
+        "dark": 0.081,
         "light": 0,
-        "colours": 22
+        "colours": 16
       }
     },
     {
@@ -99,14 +98,14 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 44644,
+      "bytes": 38962,
       "status": "captured",
       "stats": {
-        "mean": 22,
+        "mean": 23,
         "std": 13,
-        "dark": 0.08,
+        "dark": 0.068,
         "light": 0,
-        "colours": 15
+        "colours": 17
       }
     }
   ]
